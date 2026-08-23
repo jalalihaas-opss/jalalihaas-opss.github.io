@@ -38,6 +38,10 @@ function renderHotels() {
     const card = document.createElement('a');
     card.className = `hotel-card hotel-card--${hotel.accent}`;
     card.href = hotel.href;
+    if (/^https?:\/\//.test(hotel.href)) {
+      card.target = '_blank';
+      card.rel = 'noopener';
+    }
 
     const photo = document.createElement('div');
     photo.className = 'hotel-card__photo';

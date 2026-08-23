@@ -71,7 +71,7 @@ export const hotels = [
     photoLabel: 'photo — the lodge',
     detail: ['On site · $495/night'],
     // detail: ['On site · $495/night', 'Code CLARAJULIAN'],
-    href: '#stay',
+    href: 'https://www.lodgetorreypines.com/rooms',
     accent: 'gold-strong',
   },
   // {
@@ -87,7 +87,7 @@ export const hotels = [
     photo: 'assets/hotel-lajolla.jpg',
     photoLabel: 'photo — hotel la jolla',
     detail: ['0.05 miles · $268/night', 'Ocean-view rooms'],
-    href: '#stay',
+    href: 'https://www.hilton.com/en/hotels/santphh-hilton-la-jolla-torrey-pines/',
     accent: 'blue',
   },
 ];
