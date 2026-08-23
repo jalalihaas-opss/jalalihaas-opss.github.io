@@ -297,7 +297,7 @@ img {
   position: relative;
   height: 660px;
   overflow: hidden;
-  background: repeating-linear-gradient(122deg, #6b4d24 0 8px, #5e4320 8px 16px);
+  background: url('../assets/hero.jpg') center / cover no-repeat;
   box-shadow: 0 26px 60px rgba(110, 70, 16, 0.25);
 }
 
@@ -323,16 +323,6 @@ img {
   max-width: none;
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(255, 214, 150, 0.6), rgba(255, 214, 150, 0));
-}
-
-.hero__photo-label {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  font: 400 9px var(--font-mono);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 244, 226, 0.6);
 }
 
 .hero__border {

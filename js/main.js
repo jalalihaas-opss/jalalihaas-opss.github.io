@@ -41,9 +41,16 @@ function renderHotels() {
 
     const photo = document.createElement('div');
     photo.className = 'hotel-card__photo';
-    const photoLabel = document.createElement('span');
-    photoLabel.textContent = hotel.photoLabel;
-    photo.append(photoLabel);
+    if (hotel.photo) {
+      photo.classList.add('hotel-card__photo--image');
+      photo.style.backgroundImage = `url('${hotel.photo}')`;
+      photo.style.backgroundSize = 'cover';
+      photo.style.backgroundPosition = 'center';
+    } else {
+      const photoLabel = document.createElement('span');
+      photoLabel.textContent = hotel.photoLabel;
+      photo.append(photoLabel);
+    }
 
     const name = document.createElement('div');
     name.className = 'hotel-card__name';

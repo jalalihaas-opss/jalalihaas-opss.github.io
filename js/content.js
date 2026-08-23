@@ -67,6 +67,7 @@ export const events = [
 export const hotels = [
   {
     name: 'The Lodge',
+    photo: 'assets/hotel-lodge.jpg',
     photoLabel: 'photo — the lodge',
     detail: ['On site · $495/night', 'Code CLARAJULIAN'],
     href: '#stay',
@@ -74,6 +75,7 @@ export const hotels = [
   },
   {
     name: 'Estancia La Jolla',
+    photo: null,
     photoLabel: 'photo — estancia',
     detail: ['1.2 miles · $319/night', 'Shuttle both ways'],
     href: '#stay',
@@ -81,6 +83,7 @@ export const hotels = [
   },
   {
     name: 'Hotel La Jolla',
+    photo: 'assets/hotel-lajolla.jpg',
     photoLabel: 'photo — hotel la jolla',
     detail: ['3 miles · $268/night', 'Ocean-view rooms'],
     href: '#stay',
