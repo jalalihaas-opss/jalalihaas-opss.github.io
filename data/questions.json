@@ -1,0 +1,34 @@
+[
+  {
+    "id": "attending",
+    "label": "Will you be joining us?",
+    "type": "select",
+    "options": ["Joyfully accepts", "Regretfully declines"],
+    "scope": "person"
+  },
+  {
+    "id": "meal",
+    "label": "Meal preference",
+    "type": "select",
+    "options": ["Chicken", "Fish", "Vegetarian"],
+    "scope": "person"
+  },
+  {
+    "id": "dietary",
+    "label": "Any allergies or dietary restrictions?",
+    "type": "text",
+    "scope": "person"
+  },
+  {
+    "id": "song",
+    "label": "One song that will get you on the dance floor",
+    "type": "text",
+    "scope": "person"
+  },
+  {
+    "id": "notes",
+    "label": "Anything else we should know?",
+    "type": "text",
+    "scope": "party"
+  }
+]

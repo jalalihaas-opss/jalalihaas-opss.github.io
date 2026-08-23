@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RSVP — Morgan &amp; Navid</title>
+  <meta name="description" content="RSVP for Morgan &amp; Navid's wedding weekend.">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="gate" class="gate">
+    <div class="gate__card">
+      <span class="gate__mark" aria-hidden="true"></span>
+      <p class="gate__eyebrow">M &amp; N</p>
+      <h1 class="gate__heading">This invitation and event are private</h1>
+      <p class="gate__copy">Enter the password from your invite to continue.</p>
+      <form id="gate-form" class="gate__form" autocomplete="off">
+        <label class="sr-only" for="gate-input">Password</label>
+        <input
+          type="password"
+          id="gate-input"
+          class="gate__input"
+          placeholder="Password"
+          autocomplete="off"
+          autocapitalize="off"
+          autocorrect="off"
+          spellcheck="false"
+          required
+        >
+        <button type="submit" class="gate__submit">Enter</button>
+      </form>
+      <p id="gate-error" class="gate__error" hidden>That's not quite right — try again.</p>
+    </div>
+  </div>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav" hidden>
+    <div class="nav__brand">
+      <span class="nav__mark" aria-hidden="true"></span>
+      <span class="nav__name">Morgan &amp; Navid</span>
+    </div>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="index.html#schedule">Schedule</a>
+      <a href="index.html#venue">Venue</a>
+      <a href="index.html#stay">Stay</a>
+      <a href="index.html#attire">Attire</a>
+      <a href="rsvp.html" class="nav__rsvp">RSVP</a>
+    </nav>
+  </header>
+
+  <main id="main" hidden>
+    <section class="rsvp-page">
+      <div class="rsvp-page__intro" id="rsvp-intro">
+        <p class="eyebrow eyebrow--gold">RSVP</p>
+        <h1 class="rsvp-page__heading">Find your invitation</h1>
+        <p class="rsvp-page__copy">Enter your full name as it appears on your invitation.</p>
+
+        <form id="lookup-form" class="rsvp-page__lookup">
+          <label class="sr-only" for="lookup-name">Full name</label>
+          <input
+            type="text"
+            id="lookup-name"
+            class="gate__input"
+            placeholder="Full name"
+            autocomplete="name"
+            required
+          >
+          <button type="submit" class="pill pill--solid">Continue</button>
+        </form>
+
+        <p id="lookup-error" class="rsvp-page__error" hidden></p>
+      </div>
+
+      <div id="rsvp-form-wrap" class="rsvp-page__form-wrap" hidden></div>
+      <p id="submit-error" class="rsvp-page__error" hidden></p>
+
+      <div id="rsvp-success" class="rsvp-page__success" hidden>
+        <p class="eyebrow eyebrow--gold">Thank you</p>
+        <h1 class="rsvp-page__heading">We've got your reply.</h1>
+        <p class="rsvp-page__copy">We can't wait to celebrate with you.</p>
+        <a class="pill pill--outline" href="index.html">Back to the site</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/gate.js"></script>
+  <script type="module" src="js/rsvp.js"></script>
+</body>
+</html>
