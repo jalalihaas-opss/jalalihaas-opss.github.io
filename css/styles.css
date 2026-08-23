@@ -383,7 +383,7 @@ img {
 
 .hero__eyebrow {
   margin-top: 30px;
-  font: 300 10.5px var(--font-sans);
+  font: 500 10.5px var(--font-sans);
   letter-spacing: 0.5em;
   text-transform: uppercase;
   color: rgba(255, 244, 226, 0.85);
@@ -391,10 +391,10 @@ img {
 
 .hero__names {
   margin-top: 26px;
-  font: 300 96px/0.94 var(--font-serif);
+  font: 500 96px/0.94 var(--font-serif);
   color: var(--hero-fg);
   letter-spacing: -0.01em;
-  font-weight: 300;
+  font-weight: 500;
 }
 
 .hero__names .amp {
@@ -422,7 +422,7 @@ img {
 }
 
 .hero__date {
-  font: 300 11.5px var(--font-sans);
+  font: 500 11.5px var(--font-sans);
   letter-spacing: 0.34em;
   text-transform: uppercase;
   color: var(--hero-fg);
@@ -431,7 +431,7 @@ img {
 
 .hero__venue {
   margin-top: 16px;
-  font: 300 11px var(--font-sans);
+  font: 500 11px var(--font-sans);
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: rgba(255, 244, 226, 0.75);
