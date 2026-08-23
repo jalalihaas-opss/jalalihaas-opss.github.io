@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clara &amp; Julian — September 12, 2026</title>
+  <meta name="description" content="Join Clara &amp; Julian for a weekend of celebration at The Lodge at Torrey Pines, La Jolla, September 11–13, 2026.">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="gate" class="gate">
+    <div class="gate__card">
+      <span class="gate__mark" aria-hidden="true"></span>
+      <p class="gate__eyebrow">Clara &amp; Julian</p>
+      <h1 class="gate__heading">This invitation is private</h1>
+      <p class="gate__copy">Enter the password from your invite to continue.</p>
+      <form id="gate-form" class="gate__form" autocomplete="off">
+        <label class="sr-only" for="gate-input">Password</label>
+        <input
+          type="password"
+          id="gate-input"
+          class="gate__input"
+          placeholder="Password"
+          autocomplete="off"
+          autocapitalize="off"
+          autocorrect="off"
+          spellcheck="false"
+          required
+        >
+        <button type="submit" class="gate__submit">Enter</button>
+      </form>
+      <p id="gate-error" class="gate__error" hidden>That's not quite right — try again.</p>
+    </div>
+  </div>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav" hidden>
+    <div class="nav__brand">
+      <span class="nav__mark" aria-hidden="true"></span>
+      <span class="nav__name">Clara &amp; Julian</span>
+    </div>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#schedule">Schedule</a>
+      <a href="#venue">Venue</a>
+      <a href="#stay">Stay</a>
+      <a href="#attire">Attire</a>
+      <a href="#rsvp" class="nav__rsvp">RSVP</a>
+    </nav>
+  </header>
+
+  <main id="main" hidden>
+    <section class="hero" aria-label="Welcome">
+      <div class="hero__photo">
+        <span class="hero__photo-label">photo — golden hour on the bluff, full bleed</span>
+        <div class="hero__scrim" aria-hidden="true"></div>
+        <div class="hero__glow" aria-hidden="true"></div>
+        <div class="hero__border hero__border--outer" aria-hidden="true"></div>
+        <div class="hero__border hero__border--inner" aria-hidden="true"></div>
+        <div class="hero__content">
+          <div class="hero__monogram" aria-hidden="true">C<span class="amp">&amp;</span>J</div>
+          <p class="hero__eyebrow">Together with our families</p>
+          <h1 class="hero__names">Clara <span class="amp">&amp;</span> Julian</h1>
+          <div class="hero__rule-row">
+            <span class="hero__rule" aria-hidden="true"></span>
+            <span class="hero__date">Twelve September MMXXVI</span>
+            <span class="hero__rule" aria-hidden="true"></span>
+          </div>
+          <p class="hero__venue">The Lodge at Torrey Pines · La Jolla, California</p>
+          <div class="hero__actions">
+            <a class="btn btn--solid" href="#rsvp">RSVP</a>
+            <a class="btn btn--outline" href="#schedule">The weekend</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="invitation">
+      <p class="invitation__line">Three days at golden hour — an iris motif, a sunset palette, and an evening that runs long.</p>
+      <p class="invitation__replies">Replies by the first of August</p>
+    </section>
+
+    <div class="day-ribbon">
+      <span class="day-ribbon__item">Friday — welcome</span>
+      <span class="day-ribbon__dot day-ribbon__dot--gold" aria-hidden="true"></span>
+      <span class="day-ribbon__item">Saturday — the wedding</span>
+      <span class="day-ribbon__dot day-ribbon__dot--sky" aria-hidden="true"></span>
+      <span class="day-ribbon__item">Sunday — farewell</span>
+    </div>
+
+    <section class="schedule" id="schedule">
+      <div class="schedule__grid">
+        <ol class="schedule__list" id="schedule-list" aria-label="Weekend schedule"></ol>
+        <div class="schedule__aside">
+          <p class="eyebrow eyebrow--gold">Chapter one</p>
+          <h2 class="schedule__heading">The <em>weekend</em></h2>
+          <p class="schedule__copy">Everything is on the property unless noted. The evening moves from amber to deep blue — dress accordingly.</p>
+          <div class="schedule__diamonds" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="venue" id="venue">
+      <div class="venue__info">
+        <p class="eyebrow eyebrow--sky">The place</p>
+        <h2 class="venue__heading">The Lodge at<br><em>Torrey Pines</em></h2>
+        <p class="venue__address">11480 North Torrey Pines Road, La Jolla<br>Twenty minutes from SAN. Valet is complimentary; the walk from the lobby to the lawn is short and lantern-lit.</p>
+        <div class="venue__actions">
+          <a class="pill pill--solid" href="#venue">Directions</a>
+          <a class="pill pill--outline" href="#venue">Shuttles</a>
+        </div>
+      </div>
+      <div class="venue__map">
+        <div class="venue__map-frame">
+          <div class="venue__map-inner">
+            <span class="placeholder-label">map — coastline, venue &amp; hotel pins</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stay" id="stay">
+      <div class="stay__header">
+        <div>
+          <p class="eyebrow eyebrow--sky">Where to stay</p>
+          <h2 class="stay__heading">Hotel <em>blocks</em></h2>
+        </div>
+        <p class="stay__meta">Rates held through Aug 10</p>
+      </div>
+      <div class="stay__grid" id="hotel-list"></div>
+    </section>
+
+    <section class="attire" id="attire">
+      <div class="attire__inner">
+        <p class="eyebrow eyebrow--gold">What to wear</p>
+        <h2 class="attire__heading">Black Tie <em>Optional</em></h2>
+        <p class="attire__copy">Gradient, not matchy-matchy. Fluid, light-catching fabrics — satin and silk that pick up the evening rather than absorb it — and something structural that feels like you. Floor-length gowns or an elegant cocktail dress in any palette colour; tuxedos or dark formal suits with a tie or pocket square in sky blue or gold. The ceremony is on grass, so a block heel will serve you well.</p>
+        <div class="attire__swatches" id="attire-swatches">
+          <div class="attire__swatch-row" aria-hidden="true">
+            <span style="background:#f5d9a0"></span>
+            <span style="background:#e2a83f"></span>
+            <span style="background:#c07a1d"></span>
+            <span style="background:#7fb9e8"></span>
+            <span style="background:#3d8ecb"></span>
+          </div>
+          <p class="attire__caption">Amber · Gold · Ember · Sky · Cobalt</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="rsvp" id="rsvp">
+      <p class="rsvp__line">We would be glad of your company.</p>
+      <p class="rsvp__replies">Replies by the first of August</p>
+      <!-- RSVP flow not yet designed; placeholder mailto until a form/provider is chosen -->
+      <a class="pill pill--solid pill--lg rsvp__cta" href="mailto:rsvp@claraandjulian.wedding?subject=RSVP">RSVP</a>
+      <div class="rsvp__flourish" aria-hidden="true">
+        <span class="rsvp__flourish-rule"></span>
+        <span class="rsvp__flourish-diamond"></span>
+        <span class="rsvp__flourish-rule"></span>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/gate.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
