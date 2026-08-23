@@ -6,7 +6,7 @@
 // not a real problem with this approach. Paste this whole file in, then deploy as
 // a Web App. This runs entirely on Google's servers — never in the site's repo.
 
-const SITE_KEY = 'movid-rsvp-2027'; // must match RSVP_SITE_KEY in js/rsvp.js
+const SITE_KEY = 'movid-rsvp-2027'; // must match SITE_KEY in js/config.js
 const GUESTS_SHEET = 'Guests';
 const RESPONSES_SHEET = 'Responses';
 const NOTIFY_EMAIL = 'jalali.haas@gmail.com';

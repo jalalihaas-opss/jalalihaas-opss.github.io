@@ -1,10 +1,4 @@
-// Fill this in once the Apps Script Web App is deployed (see apps-script/rsvp-backend.gs).
-// Must end in /exec. Leave as-is and the page will show a friendly "not connected" message.
-const RSVP_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzN0T-iruR4PD7VN355qBHYeEWjqS90Ti7C4_tEz04hxMhi4X_rl8wdOL-yDL-yTbs/exec';
-
-// Must match SITE_KEY in apps-script/rsvp-backend.gs. Not a real secret — just filters
-// out casual/bot traffic hitting the endpoint directly, same spirit as the site password.
-const RSVP_SITE_KEY = 'movid-rsvp-2027';
+import { RSVP_ENDPOINT, SITE_KEY as RSVP_SITE_KEY } from './config.js';
 
 const introView = document.getElementById('rsvp-intro');
 const lookupForm = document.getElementById('lookup-form');
