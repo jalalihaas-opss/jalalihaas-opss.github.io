@@ -744,14 +744,14 @@ img {
 .venue__map-frame {
   flex: 1;
   border: 1px solid var(--hairline-gold);
-  border-radius: 170px 170px 14px 14px;
+  border-radius: 24px;
   padding: 7px;
 }
 
 .venue__map-inner {
   height: 100%;
   min-height: 300px;
-  border-radius: 164px 164px 8px 8px;
+  border-radius: 18px;
   overflow: hidden;
 }
 
@@ -965,6 +965,24 @@ img {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: rgba(42, 33, 24, 0.5);
+}
+
+.attire__pinterest {
+  margin-top: 22px;
+  display: inline-block;
+  font: 400 10.5px var(--font-sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-600);
+  border-bottom: 1px solid var(--hairline-gold);
+  padding-bottom: 3px;
+  transition: color 160ms var(--ease-out), border-color 160ms var(--ease-out);
+}
+
+.attire__pinterest:hover,
+.attire__pinterest:focus-visible {
+  color: var(--gold-700);
+  border-color: var(--gold-600);
 }
 
 /* ---------------------------------------------------------------------
