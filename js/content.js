@@ -7,7 +7,7 @@ export const settings = {
 
 export const events = [
   {
-    day: 'FRI',
+    day: 'THU',
     time: '6:00 PM',
     title: 'Welcome Cocktails',
     sublabel: 'The Grill Terrace · garden attire',
@@ -15,7 +15,7 @@ export const events = [
     tone: 'sun-pale',
   },
   {
-    day: 'FRI',
+    day: 'THU',
     time: '8:00 PM',
     title: 'Family Dinner',
     sublabel: 'The Wine Room · candlelight only',
@@ -23,31 +23,31 @@ export const events = [
     tone: 'sun-light',
   },
   {
-    day: 'SAT',
-    time: '4:30 PM',
+    day: 'FRI',
+    time: '6:00 PM',
     title: 'Ceremony',
     sublabel: 'Arroyo Lawn · seated by 4:15',
     audience: 'Black tie',
     tone: 'anchor',
   },
   {
-    day: 'SAT',
-    time: '5:15 PM',
+    day: 'FRI',
+    time: '6:45 PM',
     title: 'Cocktail Hour',
     sublabel: 'The Loggia · passed hors d’oeuvres',
     audience: 'All guests',
     tone: 'sun-mid',
   },
   {
-    day: 'SAT',
-    time: '7:00 PM',
+    day: 'FRI',
+    time: '7:30 PM',
     title: 'Dinner & Toasts',
     sublabel: 'The Ballroom · seated, iris throughout',
     audience: 'All guests',
     tone: 'sun-deep',
   },
   {
-    day: 'SAT',
+    day: 'FRI',
     time: '9:30 PM',
     title: 'Dancing',
     sublabel: 'Until one · late-night bites at midnight',
@@ -55,7 +55,7 @@ export const events = [
     tone: 'dusk-warm',
   },
   {
-    day: 'SUN',
+    day: 'SAT',
     time: '10:00 AM',
     title: 'Farewell Brunch',
     sublabel: 'Poolside · come and go',
