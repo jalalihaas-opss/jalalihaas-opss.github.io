@@ -528,12 +528,65 @@ img {
 }
 
 .event {
+  padding: 22px 28px;
+  border-radius: 999px;
+  transition: border-radius 240ms var(--ease-out);
+}
+
+.event.is-open {
+  border-radius: 24px;
+}
+
+.event__row {
+  all: unset;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: 112px 1fr auto;
   align-items: center;
   gap: 22px;
-  padding: 22px 28px;
-  border-radius: 999px;
+  width: 100%;
+  padding-right: 26px;
+  position: relative;
+  cursor: pointer;
+}
+
+.event__chevron {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  opacity: 0.6;
+  transform: translateY(-50%) rotate(45deg);
+  transition: transform 240ms var(--ease-out);
+}
+
+.event.is-open .event__chevron {
+  transform: translateY(-50%) rotate(-135deg);
+}
+
+.event__details-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 260ms var(--ease-out);
+}
+
+.event.is-open .event__details-wrap {
+  grid-template-rows: 1fr;
+}
+
+.event__details {
+  overflow: hidden;
+}
+
+.event__details p {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(42, 28, 12, 0.12);
+  font: 300 13px/1.7 var(--font-sans);
+  color: rgba(42, 33, 24, 0.68);
 }
 
 .event__time {
@@ -603,6 +656,13 @@ img {
   color: rgba(42, 33, 24, 0.45);
 }
 
+.event--sun-pale .event__chevron,
+.event--sun-light .event__chevron,
+.event--sun-mid .event__chevron,
+.event--sun-deep .event__chevron {
+  color: rgba(42, 33, 24, 0.45);
+}
+
 .event--dusk-warm {
   background: linear-gradient(90deg, #eddcc4, #dbe6f2);
 }
@@ -631,6 +691,17 @@ img {
   color: rgba(28, 39, 51, 0.5);
 }
 
+.event--dusk-warm .event__chevron,
+.event--dusk-cool .event__chevron {
+  color: rgba(28, 39, 51, 0.5);
+}
+
+.event--dusk-warm .event__details p,
+.event--dusk-cool .event__details p {
+  color: rgba(28, 39, 51, 0.68);
+  border-top-color: rgba(28, 39, 51, 0.12);
+}
+
 .event--anchor {
   background: var(--ink);
   padding: 30px 28px;
@@ -652,6 +723,15 @@ img {
 
 .event--anchor .event__audience {
   color: var(--gold-200);
+}
+
+.event--anchor .event__chevron {
+  color: var(--gold-200);
+}
+
+.event--anchor .event__details p {
+  color: rgba(255, 247, 232, 0.75);
+  border-top-color: rgba(255, 236, 200, 0.25);
 }
 
 .schedule__aside {
@@ -1094,11 +1174,28 @@ img {
   }
 
   .event {
+    border-radius: 28px;
+  }
+
+  .event.is-open {
+    border-radius: 20px;
+  }
+
+  .event__row {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
     gap: 6px;
-    border-radius: 28px;
+    padding-right: 30px;
     text-align: left;
+  }
+
+  .event__chevron {
+    top: 4px;
+    transform: rotate(45deg);
+  }
+
+  .event.is-open .event__chevron {
+    transform: rotate(-135deg);
   }
 
   .event--anchor {

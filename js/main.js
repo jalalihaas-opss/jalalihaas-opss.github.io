@@ -4,9 +4,13 @@ function renderSchedule() {
   const list = document.getElementById('schedule-list');
   if (!list) return;
 
-  for (const event of events) {
+  events.forEach((event, index) => {
     const item = document.createElement('li');
     item.className = `event event--${event.tone}`;
+
+    const row = document.createElement('button');
+    row.type = 'button';
+    row.className = 'event__row';
 
     const time = document.createElement('div');
     time.className = 'event__time';
@@ -25,9 +29,39 @@ function renderSchedule() {
     audience.className = 'event__audience';
     audience.textContent = event.audience;
 
-    item.append(time, body, audience);
+    row.append(time, body, audience);
+    item.append(row);
+
+    if (event.details) {
+      const detailsId = `event-details-${index}`;
+      row.setAttribute('aria-expanded', 'false');
+      row.setAttribute('aria-controls', detailsId);
+
+      const chevron = document.createElement('span');
+      chevron.className = 'event__chevron';
+      chevron.setAttribute('aria-hidden', 'true');
+      row.append(chevron);
+
+      const detailsWrap = document.createElement('div');
+      detailsWrap.className = 'event__details-wrap';
+      detailsWrap.id = detailsId;
+
+      const details = document.createElement('div');
+      details.className = 'event__details';
+      const detailsText = document.createElement('p');
+      detailsText.textContent = event.details;
+      details.append(detailsText);
+      detailsWrap.append(details);
+      item.append(detailsWrap);
+
+      row.addEventListener('click', () => {
+        const isOpen = item.classList.toggle('is-open');
+        row.setAttribute('aria-expanded', String(isOpen));
+      });
+    }
+
     list.append(item);
-  }
+  });
 }
 
 function renderHotels() {
