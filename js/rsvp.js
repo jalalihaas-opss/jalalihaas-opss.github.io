@@ -31,11 +31,15 @@ function showError(el, message) {
 }
 
 async function callApi(action, params) {
-  const url = new URL(RSVP_ENDPOINT);
-  url.searchParams.set('action', action);
-  url.searchParams.set('key', RSVP_SITE_KEY);
-  Object.entries(params || {}).forEach(([k, v]) => url.searchParams.set(k, v));
-  const res = await fetch(url.toString());
+  // POST, not GET — Apps Script Web Apps cache GET responses at Google's edge
+  // regardless of query string, so two different lookups could otherwise get
+  // each other's cached result. text/plain keeps this a CORS "simple request"
+  // so the browser skips the preflight, which Apps Script doesn't handle.
+  const res = await fetch(RSVP_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ action, key: RSVP_SITE_KEY, ...params }),
+  });
   return res.json();
 }
 

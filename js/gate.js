@@ -64,11 +64,16 @@ form.addEventListener('submit', async (event) => {
   submitBtn.textContent = 'Checking…';
 
   try {
-    const url = new URL(GATE_ENDPOINT);
-    url.searchParams.set('action', 'checkPassword');
-    url.searchParams.set('key', SITE_KEY);
-    url.searchParams.set('password', value);
-    const res = await fetch(url.toString());
+    // POST, not GET — Apps Script Web Apps cache GET responses at Google's edge
+    // regardless of query string, so a GET here would keep returning whatever
+    // the first-ever request happened to get. text/plain (not application/json)
+    // keeps this a CORS "simple request" so the browser skips the preflight,
+    // which Apps Script Web Apps don't handle.
+    const res = await fetch(GATE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'checkPassword', key: SITE_KEY, password: value }),
+    });
     const result = await res.json();
 
     if (result.ok) {
