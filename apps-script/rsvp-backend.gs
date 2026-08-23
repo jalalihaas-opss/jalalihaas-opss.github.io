@@ -49,6 +49,15 @@ function normalize(name) {
   return String(name || '').trim().toLowerCase().replace(/\s+/g, ' ');
 }
 
+function rowMatchesName(row, idxName, idxNickname, target) {
+  if (normalize(row[idxName]) === target) return true;
+  if (idxNickname > -1 && row[idxNickname]) {
+    const nicknames = String(row[idxNickname]).split(',').map(normalize);
+    if (nicknames.includes(target)) return true;
+  }
+  return false;
+}
+
 function lookupParty(name) {
   const target = normalize(name);
   if (!target) return { found: false };
@@ -59,10 +68,11 @@ function lookupParty(name) {
   const idxParty = header.indexOf('PartyID');
   const idxName = header.indexOf('GuestName');
   const idxLabel = header.indexOf('PartyLabel');
+  const idxNickname = header.indexOf('Nickname');
 
   let match = null;
   for (let i = 1; i < rows.length; i++) {
-    if (normalize(rows[i][idxName]) === target) {
+    if (rowMatchesName(rows[i], idxName, idxNickname, target)) {
       match = rows[i];
       break;
     }
