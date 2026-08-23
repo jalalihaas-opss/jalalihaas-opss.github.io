@@ -1340,6 +1340,36 @@ body.is-locked {
   color: var(--ink);
 }
 
+.rsvp-group__badge {
+  margin-left: 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--paper-warm);
+  color: var(--gold-600);
+  font: 400 9.5px var(--font-sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.rsvp-group__badge--maybe {
+  color: var(--sky-400);
+}
+
+.rsvp-field__fixed {
+  padding: 14px 18px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: var(--paper-warm);
+  color: rgba(42, 33, 24, 0.7);
+  font: 400 13px var(--font-sans);
+}
+
+.rsvp-field__note {
+  font: 300 10.5px var(--font-sans);
+  color: rgba(42, 33, 24, 0.45);
+}
+
 .rsvp-field {
   margin-top: 18px;
   display: flex;

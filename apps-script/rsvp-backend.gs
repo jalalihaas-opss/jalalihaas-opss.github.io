@@ -58,6 +58,15 @@ function rowMatchesName(row, idxName, idxNickname, target) {
   return false;
 }
 
+// IsKid column accepts: Yes/TRUE/Y/1 (definite kid, no meal choice),
+// Maybe (offer kids meal alongside the regular options), or blank/No (adult).
+function kidStatus(value) {
+  const v = String(value == null ? '' : value).trim().toLowerCase();
+  if (v === 'maybe' || v === 'm') return 'maybe';
+  if (v === 'true' || v === 'yes' || v === 'y' || v === '1') return 'yes';
+  return 'no';
+}
+
 function lookupParty(name) {
   const target = normalize(name);
   if (!target) return { found: false };
@@ -69,6 +78,7 @@ function lookupParty(name) {
   const idxName = header.indexOf('GuestName');
   const idxLabel = header.indexOf('PartyLabel');
   const idxNickname = header.indexOf('Nickname');
+  const idxKid = header.indexOf('IsKid');
 
   let match = null;
   for (let i = 1; i < rows.length; i++) {
@@ -84,7 +94,10 @@ function lookupParty(name) {
   let label = '';
   for (let i = 1; i < rows.length; i++) {
     if (String(rows[i][idxParty]) === String(partyId)) {
-      members.push(String(rows[i][idxName]));
+      members.push({
+        name: String(rows[i][idxName]),
+        kidStatus: idxKid > -1 ? kidStatus(rows[i][idxKid]) : 'no',
+      });
       if (idxLabel > -1 && rows[i][idxLabel]) label = String(rows[i][idxLabel]);
     }
   }
@@ -92,7 +105,7 @@ function lookupParty(name) {
   return {
     found: true,
     partyId: String(partyId),
-    partyLabel: label || members.join(' & '),
+    partyLabel: label || members.map(m => m.name).join(' & '),
     members,
   };
 }
@@ -129,7 +142,11 @@ function submitResponse(body) {
   const emailLines = [`New RSVP from ${partyLabel || partyId}`, ''];
 
   responses.forEach(person => {
-    const merged = Object.assign({}, partyAnswers, person.answers || {});
+    const merged = Object.assign(
+      { KidStatus: person.kidStatus || 'no' },
+      partyAnswers,
+      person.answers || {}
+    );
     Object.keys(merged).forEach(ensureColumn);
 
     const width = sheet.getLastColumn();

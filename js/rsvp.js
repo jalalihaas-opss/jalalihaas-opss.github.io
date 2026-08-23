@@ -45,10 +45,27 @@ async function callApi(action, params) {
   return res.json();
 }
 
-function fieldHTML(question, fieldId) {
+function fieldHTML(question, fieldId, kidStatus) {
   const requiredAttr = question.required === false ? '' : 'required';
+
+  // Definite kid: no choice at all — the answer is locked to the kids-meal label.
+  if (question.kidsMealLabel && kidStatus === 'yes') {
+    return `
+      <div class="rsvp-field">
+        <label for="${fieldId}">${escapeHTML(question.label)}</label>
+        <div class="rsvp-field__fixed">${escapeHTML(question.kidsMealLabel)}</div>
+        <p class="rsvp-field__note">Included automatically for kids.</p>
+        <input type="hidden" id="${fieldId}" value="${escapeHTML(question.kidsMealLabel)}">
+      </div>`;
+  }
+
   if (question.type === 'select') {
-    const options = (question.options || [])
+    let optionList = question.options || [];
+    // Maybe: offer the kids-meal label alongside the regular options.
+    if (question.kidsMealLabel && kidStatus === 'maybe') {
+      optionList = optionList.concat(question.kidsMealLabel);
+    }
+    const options = optionList
       .map((o) => `<option value="${escapeHTML(o)}">${escapeHTML(o)}</option>`)
       .join('');
     return `
@@ -84,8 +101,16 @@ async function renderQuestionForm(party) {
   }
 
   party.members.forEach((member) => {
-    html += `<div class="rsvp-group"><h2 class="rsvp-group__title">${escapeHTML(member)}</h2>`;
-    personQuestions.forEach((q) => { html += fieldHTML(q, `person__${slug(member)}__${q.id}`); });
+    let badge = '';
+    if (member.kidStatus === 'yes') {
+      badge = '<span class="rsvp-group__badge">Kids menu</span>';
+    } else if (member.kidStatus === 'maybe') {
+      badge = '<span class="rsvp-group__badge rsvp-group__badge--maybe">Kids meal available</span>';
+    }
+    html += `<div class="rsvp-group"><h2 class="rsvp-group__title">${escapeHTML(member.name)}${badge}</h2>`;
+    personQuestions.forEach((q) => {
+      html += fieldHTML(q, `person__${slug(member.name)}__${q.id}`, member.kidStatus);
+    });
     html += '</div>';
   });
 
@@ -152,10 +177,10 @@ async function onSubmitAnswers(event) {
       questions
         .filter((q) => q.scope !== 'party')
         .forEach((q) => {
-          const el = form.querySelector(`#person__${slug(member)}__${q.id}`);
+          const el = form.querySelector(`#person__${slug(member.name)}__${q.id}`);
           if (el) answers[q.id] = el.value;
         });
-      return { guestName: member, answers };
+      return { guestName: member.name, kidStatus: member.kidStatus, answers };
     });
 
     const payload = {

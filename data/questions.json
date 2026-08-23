@@ -11,6 +11,7 @@
     "label": "Meal preference",
     "type": "select",
     "options": ["Chicken", "Fish", "Vegetarian"],
+    "kidsMealLabel": "Kids Meal",
     "scope": "person"
   },
   {
