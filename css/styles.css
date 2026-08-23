@@ -230,6 +230,14 @@ img {
   display: none;
 }
 
+#schedule,
+#venue,
+#stay,
+#attire,
+#rsvp {
+  scroll-margin-top: 50px;
+}
+
 .nav__brand {
   display: flex;
   align-items: center;
