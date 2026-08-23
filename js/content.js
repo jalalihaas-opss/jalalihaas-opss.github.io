@@ -50,7 +50,7 @@ export const events = [
     day: 'FRI',
     time: '9:00 PM',
     title: 'Dancing',
-    sublabel: 'Until one · late-night bites at midnight',
+    sublabel: 'Until tomorrow · late-night bites at midnight',
     audience: 'All guests',
     tone: 'dusk-warm',
   },
