@@ -770,6 +770,10 @@ img {
    Hotel blocks
 --------------------------------------------------------------------- */
 .stay {
+  display: grid;
+  grid-template-columns: minmax(0, 780px) 230px;
+  justify-content: center;
+  gap: 46px;
   padding: 62px 38px;
   background: var(--paper);
 }
@@ -777,13 +781,10 @@ img {
 .stay__header {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
-  text-align: center;
-  margin-bottom: 26px;
-  max-width: 1180px;
-  margin-left: auto;
-  margin-right: auto;
+  padding-top: 34px;
+  text-align: left;
 }
 
 .stay__heading {
@@ -808,8 +809,8 @@ img {
   grid-template-columns: repeat(2, minmax(0, 380px));
   justify-content: center;
   gap: 20px;
-  max-width: 1180px;
-  margin: 0 auto;
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .hotel-card {
@@ -1096,11 +1097,21 @@ img {
   }
 
   .stay {
+    grid-template-columns: 1fr;
+    gap: 26px;
     padding: 48px 20px;
+  }
+
+  .stay__header {
+    align-items: center;
+    padding-top: 0;
+    text-align: center;
   }
 
   .stay__grid {
     grid-template-columns: 1fr;
+    grid-column: 1;
+    grid-row: auto;
   }
 
   .attire {
