@@ -1032,11 +1032,31 @@ img {
 .attire__swatch-row {
   display: flex;
   justify-content: center;
+  gap: 6px;
 }
 
 .attire__swatch-row span {
+  position: relative;
   width: 92px;
   height: 92px;
+  overflow: hidden;
+}
+
+.attire__swatch-row span::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 30%,
+    rgba(255, 255, 255, 0.08) 46%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.3) 82%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  mix-blend-mode: soft-light;
+  pointer-events: none;
 }
 
 .attire__caption {
@@ -1246,7 +1266,7 @@ img {
   }
 
   .attire__swatch-row span {
-    width: 33.333%;
+    width: calc(33.333% - 4px);
     height: 64px;
   }
 
