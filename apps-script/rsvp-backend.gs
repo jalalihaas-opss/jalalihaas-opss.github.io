@@ -55,6 +55,14 @@ function normalize(name) {
   return String(name || '').trim().toLowerCase().replace(/\s+/g, ' ');
 }
 
+// Case-insensitive column lookup — so a header typed as "nickname" or
+// "Nick Name" still matches, instead of that column silently never being
+// read because indexOf('Nickname') requires an exact case match.
+function findHeader(header, name) {
+  const target = name.trim().toLowerCase();
+  return header.findIndex(h => String(h).trim().toLowerCase() === target);
+}
+
 function rowMatchesName(row, idxName, idxNickname, target) {
   if (normalize(row[idxName]) === target) return true;
   if (idxNickname > -1 && row[idxNickname]) {
@@ -80,11 +88,11 @@ function lookupParty(name) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(GUESTS_SHEET);
   const rows = sheet.getDataRange().getValues();
   const header = rows[0].map(h => String(h).trim());
-  const idxParty = header.indexOf('PartyID');
-  const idxName = header.indexOf('GuestName');
-  const idxLabel = header.indexOf('PartyLabel');
-  const idxNickname = header.indexOf('Nickname');
-  const idxKid = header.indexOf('IsKid');
+  const idxParty = findHeader(header, 'PartyID');
+  const idxName = findHeader(header, 'GuestName');
+  const idxLabel = findHeader(header, 'PartyLabel');
+  const idxNickname = findHeader(header, 'Nickname');
+  const idxKid = findHeader(header, 'IsKid');
 
   let match = null;
   for (let i = 1; i < rows.length; i++) {
@@ -227,9 +235,9 @@ function updateTotals() {
 
   const guestRows = guestsSheet.getDataRange().getValues();
   const gHeader = guestRows[0].map(h => String(h).trim());
-  const gIdxParty = gHeader.indexOf('PartyID');
-  const gIdxName = gHeader.indexOf('GuestName');
-  const gIdxKid = gHeader.indexOf('IsKid');
+  const gIdxParty = findHeader(gHeader, 'PartyID');
+  const gIdxName = findHeader(gHeader, 'GuestName');
+  const gIdxKid = findHeader(gHeader, 'IsKid');
 
   const invited = []; // { key, name, kidStatus }
   for (let i = 1; i < guestRows.length; i++) {
@@ -250,10 +258,10 @@ function updateTotals() {
     const respRows = responsesSheet.getDataRange().getValues();
     if (respRows.length > 1) {
       const rHeader = respRows[0].map(h => String(h).trim());
-      const rIdxParty = rHeader.indexOf('PartyID');
-      const rIdxName = rHeader.indexOf('GuestName');
-      const rIdxMeal = rHeader.indexOf('meal');
-      const rIdxAttending = rHeader.indexOf('attending');
+      const rIdxParty = findHeader(rHeader, 'PartyID');
+      const rIdxName = findHeader(rHeader, 'GuestName');
+      const rIdxMeal = findHeader(rHeader, 'meal');
+      const rIdxAttending = findHeader(rHeader, 'attending');
       for (let i = 1; i < respRows.length; i++) {
         const key = responseKey(respRows[i][rIdxParty], respRows[i][rIdxName]);
         if (key === '|') continue;
@@ -279,8 +287,10 @@ function updateTotals() {
     }
 
     // Responded: go by what they actually picked, not their static status —
-    // this is what correctly handles "Maybe" guests either way.
-    const isKidResponse = response.meal === KIDS_MEAL_LABEL;
+    // this is what correctly handles "Maybe" guests either way. "None" only
+    // ever appears as an option for kid-flagged guests (adults never see
+    // it), so it's just as reliable a kid signal as the meal label itself.
+    const isKidResponse = response.meal === KIDS_MEAL_LABEL || response.meal === 'None';
     const attendingYes = response.attending === 'Joyfully accepts';
     const bucket = isKidResponse
       ? (attendingYes ? kidsYes : kidsNo)

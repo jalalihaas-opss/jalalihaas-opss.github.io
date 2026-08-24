@@ -46,22 +46,15 @@ async function callApi(action, params) {
 function fieldHTML(question, fieldId, kidStatus) {
   const requiredAttr = question.required === false ? '' : 'required';
 
-  // Definite kid: no choice at all — the answer is locked to the kids-meal label.
-  if (question.kidsMealLabel && kidStatus === 'yes') {
-    return `
-      <div class="rsvp-field">
-        <label for="${fieldId}">${escapeHTML(question.label)}</label>
-        <div class="rsvp-field__fixed">${escapeHTML(question.kidsMealLabel)}</div>
-        <p class="rsvp-field__note">Included automatically for kids.</p>
-        <input type="hidden" id="${fieldId}" value="${escapeHTML(question.kidsMealLabel)}">
-      </div>`;
-  }
-
   if (question.type === 'select') {
     let optionList = question.options || [];
-    // Maybe: offer the kids-meal label alongside the regular options.
-    if (question.kidsMealLabel && kidStatus === 'maybe') {
-      optionList = optionList.concat(question.kidsMealLabel);
+    if (question.kidsMealLabel && kidStatus === 'yes') {
+      // Definite kid: choice of the kids meal or none at all (e.g. an
+      // infant, or a kid who'll just snack) — not the adult menu.
+      optionList = [question.kidsMealLabel, 'None'];
+    } else if (question.kidsMealLabel && kidStatus === 'maybe') {
+      // Maybe: offer the kids-meal label and "None" alongside the regular options.
+      optionList = optionList.concat(question.kidsMealLabel, 'None');
     }
     const options = optionList
       .map((o) => `<option value="${escapeHTML(o)}">${escapeHTML(o)}</option>`)
