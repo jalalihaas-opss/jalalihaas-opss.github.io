@@ -859,7 +859,7 @@ img {
   justify-content: center;
   gap: 46px;
   padding: 62px 38px;
-  background: var(--paper);
+  background: linear-gradient(180deg, var(--paper) 0%, #fff6e7 100%);
 }
 
 .stay__header {
