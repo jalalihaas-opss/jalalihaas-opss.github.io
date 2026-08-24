@@ -7,6 +7,20 @@
     "scope": "person"
   },
   {
+    "id": "friday",
+    "label": "Will you be at Friday's celebration (ceremony, dinner & dancing)?",
+    "type": "select",
+    "options": ["Yes", "No"],
+    "scope": "person"
+  },
+  {
+    "id": "saturday_brunch",
+    "label": "Will you join us for Saturday's farewell brunch?",
+    "type": "select",
+    "options": ["Yes", "No"],
+    "scope": "person"
+  },
+  {
     "id": "meal",
     "label": "Meal preference",
     "type": "select",

@@ -8,7 +8,7 @@ const formWrap = document.getElementById('rsvp-form-wrap');
 const submitError = document.getElementById('submit-error');
 const successView = document.getElementById('rsvp-success');
 
-const questionsPromise = fetch('data/questions.json').then((r) => r.json());
+const questionsPromise = fetch('data/questions.json', { cache: 'no-store' }).then((r) => r.json());
 let currentParty = null;
 
 function endpointReady() {
@@ -105,7 +105,7 @@ async function renderQuestionForm(party) {
     } else if (member.kidStatus === 'maybe') {
       badge = '<span class="rsvp-group__badge rsvp-group__badge--maybe">Kids meal available</span>';
     }
-    html += `<div class="rsvp-group"><h2 class="rsvp-group__title">${escapeHTML(member.name)}${badge}</h2>`;
+    html += `<div class="rsvp-group"><p class="rsvp-group__for">RSVP for</p><h2 class="rsvp-group__title">${escapeHTML(member.name)}${badge}</h2>`;
     personQuestions.forEach((q) => {
       html += fieldHTML(q, `person__${slug(member.name)}__${q.id}`, member.kidStatus);
     });

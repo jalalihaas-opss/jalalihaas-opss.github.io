@@ -9,7 +9,13 @@
 const SITE_KEY = 'movid-rsvp-2027'; // must match SITE_KEY in js/config.js
 const GUESTS_SHEET = 'Guests';
 const RESPONSES_SHEET = 'Responses';
+const TOTALS_SHEET = 'Totals';
 const NOTIFY_EMAIL = 'jalali.haas@gmail.com';
+
+// Must match the meal question's "kidsMealLabel" in data/questions.json —
+// used by updateTotals() to tell a kid's response from an adult's by what
+// they actually picked, not just their static Guests-sheet status.
+const KIDS_MEAL_LABEL = 'Kids Meal';
 
 function doGet(e) {
   return handle(e);
@@ -110,11 +116,19 @@ function lookupParty(name) {
   };
 }
 
+// Key used to match a response row back to the person who sent it, so a
+// resubmission updates their existing row instead of appending a duplicate.
+// Includes PartyID (not just name) so two different parties can't collide
+// if they happen to share a guest's name.
+function responseKey(partyId, guestName) {
+  return normalize(partyId) + '|' + normalize(guestName);
+}
+
 function submitResponse(body) {
   const partyId = body.partyId;
   const partyLabel = body.partyLabel || '';
   const partyAnswers = body.partyAnswers || {};
-  const responses = body.responses || []; // [{ guestName, answers: { questionId: value } }]
+  const responses = body.responses || []; // [{ guestName, kidStatus, answers: { questionId: value } }]
 
   if (!partyId || !responses.length) {
     return { ok: false, error: 'missing partyId or responses' };
@@ -138,8 +152,19 @@ function submitResponse(body) {
     colIndex[key] = newCol - 1;
   }
 
+  // Snapshot existing rows so a resubmission overwrites the same row instead
+  // of appending a duplicate. Only PartyID (col B) and GuestName (col D) are
+  // read here, so columns added below via ensureColumn don't affect this.
+  const existingRows = sheet.getDataRange().getValues();
+  const rowNumberByKey = {};
+  for (let r = 1; r < existingRows.length; r++) {
+    const k = responseKey(existingRows[r][1], existingRows[r][3]);
+    if (k !== '|') rowNumberByKey[k] = r + 1; // 1-indexed sheet row
+  }
+
   const now = new Date();
-  const emailLines = [`New RSVP from ${partyLabel || partyId}`, ''];
+  const emailLines = [];
+  let anyUpdated = false;
 
   responses.forEach(person => {
     const merged = Object.assign(
@@ -156,18 +181,127 @@ function submitResponse(body) {
     row[2] = partyLabel;
     row[3] = person.guestName || '';
     Object.keys(merged).forEach(key => { row[colIndex[key]] = merged[key]; });
-    sheet.appendRow(row);
+
+    const key = responseKey(partyId, person.guestName);
+    const existingRowNum = rowNumberByKey[key];
+
+    if (existingRowNum) {
+      sheet.getRange(existingRowNum, 1, 1, width).setValues([row]);
+      anyUpdated = true;
+    } else {
+      sheet.appendRow(row);
+      rowNumberByKey[key] = sheet.getLastRow();
+    }
 
     emailLines.push(`${person.guestName}:`);
-    Object.keys(merged).forEach(key => emailLines.push(`  ${key}: ${merged[key]}`));
+    Object.keys(merged).forEach(k => emailLines.push(`  ${k}: ${merged[k]}`));
     emailLines.push('');
   });
 
+  emailLines.unshift(
+    anyUpdated ? 'This updates a previous response.' : 'First response from this party.',
+    ''
+  );
+
   MailApp.sendEmail({
     to: NOTIFY_EMAIL,
-    subject: `RSVP received — ${partyLabel || partyId}`,
+    subject: `RSVP ${anyUpdated ? 'updated' : 'received'} — ${partyLabel || partyId}`,
     body: emailLines.join('\n'),
   });
 
+  updateTotals();
+
   return { ok: true };
+}
+
+// Recomputes the Totals tab from scratch on every submission, rather than
+// incrementing/decrementing counters — that sidesteps having to reason about
+// every way a resubmission could change the numbers (new party member,
+// flipped answer, changed kid status, etc.). Always correct because it's
+// always derived fresh from the current state of Guests + Responses.
+function updateTotals() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const guestsSheet = ss.getSheetByName(GUESTS_SHEET);
+  const responsesSheet = ss.getSheetByName(RESPONSES_SHEET);
+  if (!guestsSheet) return;
+
+  const guestRows = guestsSheet.getDataRange().getValues();
+  const gHeader = guestRows[0].map(h => String(h).trim());
+  const gIdxParty = gHeader.indexOf('PartyID');
+  const gIdxName = gHeader.indexOf('GuestName');
+  const gIdxKid = gHeader.indexOf('IsKid');
+
+  const invited = []; // { key, name, kidStatus }
+  for (let i = 1; i < guestRows.length; i++) {
+    const name = String(guestRows[i][gIdxName] || '').trim();
+    if (!name) continue;
+    invited.push({
+      key: responseKey(guestRows[i][gIdxParty], name),
+      name,
+      kidStatus: gIdxKid > -1 ? kidStatus(guestRows[i][gIdxKid]) : 'no',
+    });
+  }
+
+  // Latest response per person, keyed the same way as submitResponse's
+  // dedupe logic — guaranteed at most one row per person already, but keyed
+  // lookup here anyway in case Responses was ever edited by hand.
+  const responded = {}; // key -> { meal, attending }
+  if (responsesSheet) {
+    const respRows = responsesSheet.getDataRange().getValues();
+    if (respRows.length > 1) {
+      const rHeader = respRows[0].map(h => String(h).trim());
+      const rIdxParty = rHeader.indexOf('PartyID');
+      const rIdxName = rHeader.indexOf('GuestName');
+      const rIdxMeal = rHeader.indexOf('meal');
+      const rIdxAttending = rHeader.indexOf('attending');
+      for (let i = 1; i < respRows.length; i++) {
+        const key = responseKey(respRows[i][rIdxParty], respRows[i][rIdxName]);
+        if (key === '|') continue;
+        responded[key] = {
+          meal: rIdxMeal > -1 ? String(respRows[i][rIdxMeal] || '').trim() : '',
+          attending: rIdxAttending > -1 ? String(respRows[i][rIdxAttending] || '').trim() : '',
+        };
+      }
+    }
+  }
+
+  const adultsYes = [], adultsNo = [], kidsYes = [], kidsNo = [];
+  const adultsPending = [], kidsPending = [];
+
+  invited.forEach(person => {
+    const response = responded[person.key];
+
+    if (!response) {
+      // Not yet responded: go by the Guests sheet's static status.
+      // "Maybe" counts as adult until they actually respond.
+      (person.kidStatus === 'yes' ? kidsPending : adultsPending).push(person.name);
+      return;
+    }
+
+    // Responded: go by what they actually picked, not their static status —
+    // this is what correctly handles "Maybe" guests either way.
+    const isKidResponse = response.meal === KIDS_MEAL_LABEL;
+    const attendingYes = response.attending === 'Joyfully accepts';
+    const bucket = isKidResponse
+      ? (attendingYes ? kidsYes : kidsNo)
+      : (attendingYes ? adultsYes : adultsNo);
+    bucket.push(person.name);
+  });
+
+  let totalsSheet = ss.getSheetByName(TOTALS_SHEET);
+  if (!totalsSheet) totalsSheet = ss.insertSheet(TOTALS_SHEET);
+
+  const list = names => names.slice().sort().join(', ');
+
+  const rows = [
+    ['Metric', 'Count', 'Names'],
+    ['Adults — Yes', adultsYes.length, list(adultsYes)],
+    ['Adults — No', adultsNo.length, list(adultsNo)],
+    ['Kids — Yes', kidsYes.length, list(kidsYes)],
+    ['Kids — No', kidsNo.length, list(kidsNo)],
+    ['Adults — Not yet responded', adultsPending.length, list(adultsPending)],
+    ['Kids — Not yet responded', kidsPending.length, list(kidsPending)],
+    ['Last updated', new Date(), ''],
+  ];
+  totalsSheet.getRange(1, 1, rows.length, 3).setValues(rows);
 }

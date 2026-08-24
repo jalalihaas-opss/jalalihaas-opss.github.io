@@ -1452,6 +1452,14 @@ body.is-locked {
   margin-top: 44px;
 }
 
+.rsvp-group__for {
+  font: 400 10px var(--font-sans);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold-600);
+  margin-bottom: 4px;
+}
+
 .rsvp-group__title {
   font: 400 21px var(--font-serif);
   color: var(--ink);
