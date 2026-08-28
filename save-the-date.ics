@@ -1,0 +1,12 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//movid.love//Save the Date//EN
+BEGIN:VEVENT
+UID:morgan-navid-2027@movid.love
+DTSTAMP:20260828T000000Z
+DTSTART;VALUE=DATE:20270514
+DTEND;VALUE=DATE:20270516
+SUMMARY:Morgan & Navid — Wedding
+DESCRIPTION:Twelve years to the day. Details to follow — movid.love
+END:VEVENT
+END:VCALENDAR
