@@ -23,9 +23,22 @@
         <div class="stod-envelope-bg"></div>
         <div class="stod-envelope-hairline"></div>
 
+        <svg class="stod-envelope-seams" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="0" y1="100" x2="50" y2="56" vector-effect="non-scaling-stroke"></line>
+          <line x1="100" y1="100" x2="50" y2="56" vector-effect="non-scaling-stroke"></line>
+          <line x1="0" y1="100" x2="50" y2="100" vector-effect="non-scaling-stroke"></line>
+          <line x1="100" y1="100" x2="50" y2="100" vector-effect="non-scaling-stroke"></line>
+        </svg>
+
+        <div class="stod-flap-fold-shadow" aria-hidden="true"></div>
+
         <div class="stod-tap-label">Tap to open</div>
 
         <div class="stod-flap">
+          <svg class="stod-flap-highlight" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="3" y1="4" x2="50" y2="94" vector-effect="non-scaling-stroke"></line>
+            <line x1="97" y1="4" x2="50" y2="94" vector-effect="non-scaling-stroke"></line>
+          </svg>
           <div class="stod-flap-label">Save the date</div>
         </div>
 
@@ -145,7 +158,14 @@
 
           <div class="stod-actions">
             <a class="stod-btn-website" href="index.html">Website</a>
-            <a id="stod-calendar-btn" class="stod-btn-calendar" href="save-the-date.ics" download="save-the-date.ics">Add to calendar</a>
+            <div class="stod-calendar-wrap">
+              <button type="button" id="stod-calendar-btn" class="stod-btn-calendar" aria-haspopup="true" aria-expanded="false">Add to calendar</button>
+              <div id="stod-calendar-menu" class="stod-calendar-menu" hidden>
+                <a class="stod-calendar-option" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Morgan%20%26%20Navid%20%E2%80%94%20Wedding&amp;dates=20270514/20270516&amp;details=Twelve%20years%20to%20the%20day.%20Details%20to%20follow%20%E2%80%94%20movid.love" target="_blank" rel="noopener">Google Calendar</a>
+                <a class="stod-calendar-option" href="save-the-date.ics">Apple Calendar</a>
+                <a class="stod-calendar-option" href="https://outlook.live.com/calendar/0/deeplink/compose?path=%2Fcalendar%2Faction%2Fcompose&amp;rru=addevent&amp;startdt=2027-05-14&amp;enddt=2027-05-16&amp;allday=true&amp;subject=Morgan%20%26%20Navid%20%E2%80%94%20Wedding&amp;body=Twelve%20years%20to%20the%20day.%20Details%20to%20follow%20%E2%80%94%20movid.love" target="_blank" rel="noopener">Outlook</a>
+              </div>
+            </div>
           </div>
         </section>
 

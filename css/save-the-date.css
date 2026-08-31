@@ -27,7 +27,7 @@ html, body {
   background: radial-gradient(120% 80% at 50% 108%, #7a4a12 0%, #3a240c 42%, #17100a 78%);
   opacity: 1;
   pointer-events: auto;
-  transition: opacity .6s ease;
+  transition: opacity .9s ease .1s;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   z-index: 2;
@@ -60,6 +60,7 @@ html, body {
   height: min(78vh, 560px);
   transform: scale(1);
   transition: transform .8s cubic-bezier(.2,.7,.2,1);
+  perspective: 900px;
 }
 
 .stod--open .stod-envelope-card {
@@ -78,6 +79,41 @@ html, body {
   position: absolute;
   inset: 13px;
   border: 1px solid rgba(255,236,200,.18);
+}
+
+/* Faint back-seam lines from the flap's tip down to the bottom corners and
+   across the bottom edge, so the closed shape reads as folded paper rather
+   than a card with a triangle on it. */
+.stod-envelope-seams {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.stod-envelope-seams line {
+  stroke: rgba(168,116,28,.32);
+  stroke-width: .6;
+}
+
+/* Shadow cast into the envelope's interior, revealed as the flap lifts away. */
+.stod-flap-fold-shadow {
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  top: 1px;
+  height: 56%;
+  background: linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,0) 100%);
+  opacity: 0;
+  transition: opacity .5s ease .15s;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.stod--open .stod-flap-fold-shadow {
+  opacity: 1;
 }
 
 .stod-tap-label {
@@ -108,10 +144,25 @@ html, body {
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   background: linear-gradient(185deg, #3a250f 0%, #241708 74%);
   border-top: 1px solid rgba(168,116,28,.5);
+  box-shadow: 0 1px 10px rgba(0,0,0,.3);
+  z-index: 2;
 }
 
 .stod--open .stod-flap {
   transform: rotateX(-168deg);
+}
+
+.stod-flap-highlight {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.stod-flap-highlight line {
+  stroke: rgba(255,236,200,.28);
+  stroke-width: .5;
 }
 
 .stod-flap-label {
@@ -721,6 +772,11 @@ html, body {
   box-sizing: border-box;
 }
 
+.stod-calendar-wrap {
+  position: relative;
+  width: 100%;
+}
+
 .stod-btn-calendar {
   width: 100%;
   min-height: 48px;
@@ -728,6 +784,7 @@ html, body {
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(245,217,160,.5);
+  background: transparent;
   color: #f5d9a0;
   font-family: 'Jost', sans-serif;
   font-weight: 300;
@@ -738,6 +795,51 @@ html, body {
   cursor: pointer;
   text-decoration: none;
   box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.stod-calendar-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 10px);
+  background: #20150a;
+  border: 1px solid rgba(245,217,160,.35);
+  border-radius: 14px;
+  box-shadow: 0 14px 34px rgba(0,0,0,.45);
+  overflow: hidden;
+  z-index: 5;
+}
+
+.stod-calendar-menu[hidden] {
+  display: none;
+}
+
+.stod-calendar-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 16px;
+  color: #f5d9a0;
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(245,217,160,.15);
+  box-sizing: border-box;
+}
+
+.stod-calendar-option:last-child {
+  border-bottom: none;
+}
+
+.stod-calendar-option:active,
+.stod-calendar-option:hover {
+  background: rgba(245,217,160,.1);
 }
 
 /* ---------- motion ---------- */

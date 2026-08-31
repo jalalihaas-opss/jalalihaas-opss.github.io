@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const envelope = document.getElementById('stod-envelope');
   const sky = document.getElementById('stod-sky');
   const calendarBtn = document.getElementById('stod-calendar-btn');
+  const calendarMenu = document.getElementById('stod-calendar-menu');
 
   function draw() {
     drawSky(sky);
@@ -147,9 +148,29 @@ document.addEventListener('DOMContentLoaded', () => {
   tickCountdown();
   setInterval(tickCountdown, 1000);
 
-  if (calendarBtn) {
-    calendarBtn.addEventListener('click', () => {
-      calendarBtn.textContent = 'Saved · see you there';
+  if (calendarBtn && calendarMenu) {
+    function closeMenu() {
+      calendarMenu.hidden = true;
+      calendarBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    calendarBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = !calendarMenu.hidden;
+      calendarMenu.hidden = isOpen;
+      calendarBtn.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    calendarMenu.addEventListener('click', (e) => {
+      if (e.target.closest('.stod-calendar-option')) closeMenu();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!calendarMenu.hidden && !calendarMenu.contains(e.target) && e.target !== calendarBtn) closeMenu();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
     });
   }
 });
