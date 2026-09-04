@@ -99,9 +99,20 @@ async function renderQuestionForm(party) {
       badge = '<span class="rsvp-group__badge rsvp-group__badge--maybe">Kids meal available</span>';
     }
     html += `<div class="rsvp-group"><p class="rsvp-group__for">RSVP for</p><h2 class="rsvp-group__title">${escapeHTML(member.name)}${badge}</h2>`;
-    personQuestions.forEach((q) => {
+
+    const attendingQuestion = personQuestions.find((q) => q.id === 'attending');
+    const restQuestions = personQuestions.filter((q) => q.id !== 'attending');
+
+    if (attendingQuestion) {
+      html += fieldHTML(attendingQuestion, `person__${slug(member.name)}__${attendingQuestion.id}`, member.kidStatus);
+    }
+
+    html += `<div id="person__${slug(member.name)}__rest">`;
+    restQuestions.forEach((q) => {
       html += fieldHTML(q, `person__${slug(member.name)}__${q.id}`, member.kidStatus);
     });
+    html += '</div>';
+
     html += '</div>';
   });
 
@@ -110,6 +121,21 @@ async function renderQuestionForm(party) {
   formWrap.innerHTML = `<form id="answers-form">${html}</form>`;
   formWrap.hidden = false;
   document.getElementById('answers-form').addEventListener('submit', onSubmitAnswers);
+
+  party.members.forEach((member) => {
+    const attendingEl = document.getElementById(`person__${slug(member.name)}__attending`);
+    const restEl = document.getElementById(`person__${slug(member.name)}__rest`);
+    if (!attendingEl || !restEl) return;
+    const sync = () => {
+      const declined = attendingEl.value === 'Regretfully declines';
+      restEl.hidden = declined;
+      // `hidden` alone isn't enough — required fields inside a hidden container
+      // still block native form validation, so disable them too once declined.
+      restEl.querySelectorAll('select, input').forEach((el) => { el.disabled = declined; });
+    };
+    attendingEl.addEventListener('change', sync);
+    sync();
+  });
 }
 
 lookupForm.addEventListener('submit', async (event) => {

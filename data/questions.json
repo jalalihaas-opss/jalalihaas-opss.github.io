@@ -15,7 +15,7 @@
   },
   {
     "id": "saturday_brunch",
-    "label": "Will you join us for Saturday's farewell brunch?",
+    "label": "Will you join us for Saturday's brunch?",
     "type": "select",
     "options": ["Yes", "No"],
     "scope": "person"
