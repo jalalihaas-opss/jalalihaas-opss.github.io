@@ -81,7 +81,7 @@ export const hotels = [
     name: 'The Lodge',
     photo: 'assets/hotel-lodge.jpg',
     photoLabel: 'photo — the lodge',
-    detail: ['On site · $495/night'],
+    detail: ['On site · $495+/night'],
     // detail: ['On site · $495/night', 'Code CLARAJULIAN'],
     href: 'https://www.lodgetorreypines.com/rooms',
     accent: 'gold-strong',
@@ -95,11 +95,11 @@ export const hotels = [
   //   accent: 'neutral',
   // },
   {
-    name: 'Hilton Torrey Pines',
+    name: 'Hilton Torrey Pines · BLOCK',
     photo: 'assets/hotel-lajolla.jpg',
     photoLabel: 'photo — hotel la jolla',
-    detail: ['0.05 miles · $268/night', 'Ocean-view rooms'],
-    href: 'https://www.hilton.com/en/hotels/santphh-hilton-la-jolla-torrey-pines/',
+    detail: ['0.05 miles · $260+/night', 'Code 507'],
+    href: 'https://links.h6.hilton.com/f/a/X-oNjhQOoqngQtMMSsNauA~~/AAQRxRA~/fvNefb4SkXrrLtgMfo4Kuij167ynUWsZmg_Q6pYypPnJWwGzHMwAL660h247DO2NsEuKc8z1obl9IewAymtGU6wYXhqUEaSTypGPtYwH_nEBjIgnVpzGQAhq_kZdyjCM7KRGeNtUw2Y37c04COP816Jv5TiaqzFYdmjJiymGCGyEby3rJJkb1-UoC-yYufB4cw8W7nAfdISzukDEicOXcMFruihkMk7-NLiyY9Rk5ENwCjwo9MEsdsEYZlsz9lngg0O3MniJLJOtVpn9kcHwaQZb-Lx1w2m1hwaz6453FzeTzQaWH9X7teRAqUIQtaI-6JhqdeZPSop_pEJ5-8GVv5WrVWvWw5pij8fuVQE5QsLSwPrjWQUT_XZze6sLt-0bx4GgPuhTt5iOXsgDxKJBWfmA-7jzRrsKOILQaM6swqOZJYJvqaZ55tsevklB63aILxUFj3o-IvAGOP5gJjX7YbXTad9Oi6H7wWIU1Em-jOj-7PolmxWMtDtLvmJJEmzapt0Szm10ulGuoq-fDQ3saz2KoCzu8uT3UqDD7RYApko~',
     accent: 'blue',
   },
 ];
