@@ -85,12 +85,6 @@ async function renderQuestionForm(party) {
     <h1 class="rsvp-page__heading">${escapeHTML(party.partyLabel)}</h1>
   `;
 
-  if (partyQuestions.length) {
-    html += '<div class="rsvp-group"><h2 class="rsvp-group__title">A few questions for your party</h2>';
-    partyQuestions.forEach((q) => { html += fieldHTML(q, `party__${q.id}`); });
-    html += '</div>';
-  }
-
   party.members.forEach((member) => {
     let badge = '';
     if (member.kidStatus === 'yes') {
@@ -115,6 +109,12 @@ async function renderQuestionForm(party) {
 
     html += '</div>';
   });
+
+  if (partyQuestions.length) {
+    html += '<div class="rsvp-group"><h2 class="rsvp-group__title">A few questions for your party</h2>';
+    partyQuestions.forEach((q) => { html += fieldHTML(q, `party__${q.id}`); });
+    html += '</div>';
+  }
 
   html += '<button type="submit" class="pill pill--solid pill--lg">Send RSVP</button>';
 
