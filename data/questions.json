@@ -8,21 +8,21 @@
   },
   {
     "id": "place_card_name",
-    "label": "If different from above, what name should appear on your place card?",
+    "label": "Name for your place card",
     "type": "text",
     "required": false,
     "scope": "person"
   },
   {
     "id": "friday",
-    "label": "Will you be at Friday's celebration (ceremony, dinner & dancing)?",
+    "label": "Friday — ceremony, dinner & dancing",
     "type": "select",
     "options": ["Yes", "No"],
     "scope": "person"
   },
   {
     "id": "saturday_brunch",
-    "label": "Will you join us for Saturday's brunch?",
+    "label": "Saturday — brunch",
     "type": "select",
     "options": ["Yes", "No"],
     "scope": "person"
@@ -37,26 +37,26 @@
   },
   {
     "id": "dietary",
-    "label": "Any allergies or dietary restrictions?",
+    "label": "Allergies or dietary notes",
     "type": "text",
     "scope": "person"
   },
   {
     "id": "song",
-    "label": "One song that will get you on the dance floor",
+    "label": "One song that gets you dancing",
     "type": "text",
     "scope": "person"
   },
   {
     "id": "soccer",
-    "label": "Would you participate in a group soccer game?",
+    "label": "Would you play in a group soccer game?",
     "type": "select",
     "options": ["Yes", "No"],
     "scope": "person"
   },
   {
     "id": "jersey_size",
-    "label": "What is your jersey size?",
+    "label": "What jersey size are you?",
     "type": "select",
     "options": ["XS", "S", "M", "L", "XL", "XXL"],
     "scope": "person",
