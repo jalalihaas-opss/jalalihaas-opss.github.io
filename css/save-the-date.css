@@ -1,7 +1,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: #17100a;
+  background: #f0e3d3;
 }
 
 .stod {
@@ -10,216 +10,408 @@ html, body {
   height: 100dvh;
   width: 100%;
   overflow: hidden;
-  background: #17100a;
+  background: #f0e3d3;
   font-family: 'Jost', system-ui, sans-serif;
 }
 
-/* ---------- envelope layer ---------- */
+/* ---------- intro: paint in water ---------- */
 
-.stod-envelope-layer {
+.stod-intro {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 14px;
-  box-sizing: border-box;
-  background: radial-gradient(120% 80% at 50% 108%, #7a4a12 0%, #3a240c 42%, #17100a 78%);
-  opacity: 1;
-  pointer-events: auto;
-  transition: opacity .9s ease .1s;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  z-index: 2;
-  border: none;
-  text-align: initial;
-  font: inherit;
-  color: inherit;
-}
-
-.stod--open .stod-envelope-layer {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.stod-glow {
-  position: absolute;
-  left: 50%;
-  bottom: -220px;
-  width: 760px;
-  height: 420px;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(255,214,150,.45), transparent);
-  animation: glow 7s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.stod-envelope-card {
-  position: relative;
-  width: min(88vw, 340px);
-  height: min(78vh, 560px);
-  transform: scale(1);
-  transition: transform .8s cubic-bezier(.2,.7,.2,1);
-  perspective: 900px;
-}
-
-.stod--open .stod-envelope-card {
-  transform: scale(1.05);
-}
-
-.stod-envelope-bg {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(170deg, #2c1d0b 0%, #20150a 50%, #170f07 100%);
-  box-shadow: 0 26px 60px rgba(110,70,16,.4);
-  border: 1px solid rgba(168,116,28,.5);
-}
-
-.stod-envelope-hairline {
-  position: absolute;
-  inset: 13px;
-  border: 1px solid rgba(255,236,200,.18);
-}
-
-/* Faint back-seam lines from the flap's tip down to the bottom corners and
-   across the bottom edge, so the closed shape reads as folded paper rather
-   than a card with a triangle on it. */
-.stod-envelope-seams {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.stod-envelope-seams line {
-  stroke: rgba(168,116,28,.32);
-  stroke-width: .6;
-}
-
-/* Shadow cast into the envelope's interior, revealed as the flap lifts away. */
-.stod-flap-fold-shadow {
-  position: absolute;
-  left: 1px;
-  right: 1px;
-  top: 1px;
-  height: 56%;
-  background: linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,0) 100%);
-  opacity: 0;
-  transition: opacity .5s ease .15s;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.stod--open .stod-flap-fold-shadow {
-  opacity: 1;
-}
-
-.stod-tap-label {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 38px;
-  display: flex;
-  justify-content: center;
-  font-weight: 300;
-  font-size: 10px;
-  letter-spacing: .36em;
-  text-transform: uppercase;
-  color: #f5d9a0;
-  animation: breathe 2.8s ease-in-out infinite;
-}
-
-.stod-flap {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 56%;
-  transform-origin: top center;
-  transform: rotateX(0deg);
-  transition: transform .85s cubic-bezier(.6,.05,.25,1);
-  backface-visibility: hidden;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  background: linear-gradient(185deg, #3a250f 0%, #241708 74%);
-  border-top: 1px solid rgba(168,116,28,.5);
-  box-shadow: 0 1px 10px rgba(0,0,0,.3);
-  z-index: 2;
-}
-
-.stod--open .stod-flap {
-  transform: rotateX(-168deg);
-}
-
-.stod-flap-highlight {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.stod-flap-highlight line {
-  stroke: rgba(255,236,200,.28);
-  stroke-width: .5;
-}
-
-.stod-flap-label {
-  position: absolute;
-  top: 44px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 300;
-  font-size: 14px;
-  letter-spacing: .42em;
-  text-transform: uppercase;
-  color: #f5d9a0;
-}
-
-.stod-seal-halo {
-  position: absolute;
-  left: 50%;
-  top: 56%;
-  transform: translate(-50%, -50%);
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(255,214,150,.26), rgba(255,214,150,0) 72%);
-  pointer-events: none;
-  z-index: 3;
-}
-
-.stod-seal {
-  position: absolute;
-  left: 50%;
-  top: 56%;
-  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 11px;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 20px 16px;
+  overflow: hidden;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity .6s ease;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 2;
+}
+
+.stod--landed .stod-intro {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stod-intro-photo-wrap {
+  position: absolute;
+  inset: -12%;
+  overflow: hidden;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 1.5s ease .5s;
+}
+
+.stod--flying .stod-intro-photo-wrap {
+  opacity: 0;
+}
+
+.stod-intro-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 58% 30%;
+  display: block;
+  filter: blur(9px) saturate(.9) brightness(1.1);
+  transform: scale(1.06);
+}
+
+.stod-intro-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,249,236,.5) 0%, rgba(253,244,232,.34) 44%, rgba(232,216,208,.44) 100%);
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 1.5s ease .5s;
+}
+
+.stod--flying .stod-intro-scrim {
+  opacity: 0;
+}
+
+.stod-intro-wash {
+  position: absolute;
+  inset: 0;
+  background: rgba(250,242,228,.34);
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 1.5s ease .5s;
+}
+
+.stod--flying .stod-intro-wash {
+  opacity: 0;
+}
+
+.stod-intro-glow {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  width: 150%;
+  height: 60%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(255,245,214,.5), rgba(255,245,214,0) 72%);
+  animation: glow 9s ease-in-out infinite;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 1.5s ease .5s;
+}
+
+.stod--flying .stod-intro-glow {
+  opacity: 0;
+}
+
+.stod-intro-logo {
+  position: relative;
+  width: min(84vw, 318px);
+  margin: 56px 0;
   z-index: 4;
-  animation: breathe 6.5s ease-in-out infinite;
+  transform: translate(0, 0) scale(1);
+  transition: transform 2.6s cubic-bezier(.4,0,.18,1);
+  will-change: transform;
 }
 
-.stod-seal-amp {
-  font-family: 'Cormorant Garamond', serif;
+.stod-intro-trace {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: .2;
+  filter: grayscale(1) brightness(.4) sepia(.45);
+}
+
+/* -- paint drops -- */
+
+.stod-drop {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 14px;
+  min-width: 44px;
+  min-height: 44px;
+  box-sizing: content-box;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity 1s ease, transform 1.3s cubic-bezier(.4,0,.4,1);
+  z-index: 6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.stod-drop--red {
+  left: -13px;
+  top: -54px;
+}
+
+.stod--red .stod-drop--red {
+  opacity: 0;
+  transform: translateY(30px) scale(.45);
+}
+
+.stod-drop--blue {
+  right: -13px;
+  bottom: -54px;
+}
+
+.stod--blue .stod-drop--blue {
+  opacity: 0;
+  transform: translateY(-30px) scale(.45);
+}
+
+.stod-drop-label {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 7.5px;
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: #2a1c0c;
+  text-shadow: 0 0 6px rgba(255,250,238,.95), 0 0 13px rgba(255,248,232,.85), 0 1px 2px rgba(255,250,240,.8);
+}
+
+.stod-drop-dot {
+  width: 19px;
+  height: 19px;
+  border-radius: 50% 50% 50% 50% / 58% 58% 42% 42%;
+  animation: breathe 3.4s ease-in-out infinite;
+}
+
+.stod-drop--red .stod-drop-dot {
+  background: radial-gradient(circle at 38% 30%, #9e4234 0%, #74291f 52%, #431310 100%);
+  box-shadow: 0 0 14px rgba(120,45,32,.5), inset 0 1px 2px rgba(255,226,196,.42);
+}
+
+.stod-drop--blue .stod-drop-dot {
+  background: radial-gradient(circle at 38% 30%, #3a4079 0%, #232a63 52%, #0f1230 100%);
+  box-shadow: 0 0 14px rgba(40,32,70,.5), inset 0 1px 2px rgba(255,222,190,.3);
+  animation-delay: .6s;
+}
+
+/* -- the bleed: one pigment container per colour, six masked/clipped layers each -- */
+
+.stod-pigment {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+}
+
+.stod-pigment--red {
+  mask-image: radial-gradient(circle at -4% -14%, rgba(0,0,0,1) 0%, rgba(0,0,0,.98) 26%, rgba(0,0,0,.93) 46%, rgba(0,0,0,.85) 62%, rgba(0,0,0,.75) 78%, rgba(0,0,0,.66) 92%, rgba(0,0,0,.6) 110%);
+  -webkit-mask-image: radial-gradient(circle at -4% -14%, rgba(0,0,0,1) 0%, rgba(0,0,0,.98) 26%, rgba(0,0,0,.93) 46%, rgba(0,0,0,.85) 62%, rgba(0,0,0,.75) 78%, rgba(0,0,0,.66) 92%, rgba(0,0,0,.6) 110%);
+}
+
+.stod-pigment--navy {
+  mask-image: radial-gradient(circle at 104% 114%, rgba(0,0,0,1) 0%, rgba(0,0,0,.98) 26%, rgba(0,0,0,.93) 46%, rgba(0,0,0,.85) 62%, rgba(0,0,0,.75) 78%, rgba(0,0,0,.66) 92%, rgba(0,0,0,.6) 110%);
+  -webkit-mask-image: radial-gradient(circle at 104% 114%, rgba(0,0,0,1) 0%, rgba(0,0,0,.98) 26%, rgba(0,0,0,.93) 46%, rgba(0,0,0,.85) 62%, rgba(0,0,0,.75) 78%, rgba(0,0,0,.66) 92%, rgba(0,0,0,.6) 110%);
+}
+
+.stod-bleed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: 8% 9%;
+  -webkit-mask-size: 8% 9%;
+}
+
+.stod-pigment--red .stod-bleed {
+  mask-position: left top;
+  -webkit-mask-position: left top;
+}
+
+.stod-pigment--navy .stod-bleed {
+  mask-position: right bottom;
+  -webkit-mask-position: right bottom;
+}
+
+/* wisp layers: opacity .62, thin density ramp */
+.stod-bleed--r-wisp-a, .stod-bleed--r-wisp-b,
+.stod-bleed--n-wisp-a, .stod-bleed--n-wisp-b {
+  opacity: .62;
+}
+
+.stod-pigment--red .stod-bleed--r-wisp-a,
+.stod-pigment--red .stod-bleed--r-wisp-b {
+  mask-image: radial-gradient(circle at 0% 0%, rgba(0,0,0,.92) 0%, rgba(0,0,0,.74) 36%, rgba(0,0,0,.5) 60%, rgba(0,0,0,.27) 79%, rgba(0,0,0,.09) 93%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: radial-gradient(circle at 0% 0%, rgba(0,0,0,.92) 0%, rgba(0,0,0,.74) 36%, rgba(0,0,0,.5) 60%, rgba(0,0,0,.27) 79%, rgba(0,0,0,.09) 93%, rgba(0,0,0,0) 100%);
+}
+
+.stod-pigment--navy .stod-bleed--n-wisp-a,
+.stod-pigment--navy .stod-bleed--n-wisp-b {
+  mask-image: radial-gradient(circle at 100% 100%, rgba(0,0,0,.92) 0%, rgba(0,0,0,.74) 36%, rgba(0,0,0,.5) 60%, rgba(0,0,0,.27) 79%, rgba(0,0,0,.09) 93%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: radial-gradient(circle at 100% 100%, rgba(0,0,0,.92) 0%, rgba(0,0,0,.74) 36%, rgba(0,0,0,.5) 60%, rgba(0,0,0,.27) 79%, rgba(0,0,0,.09) 93%, rgba(0,0,0,0) 100%);
+}
+
+/* body layers: full opacity, denser ramp */
+.stod-bleed--r-body-a, .stod-bleed--r-body-b, .stod-bleed--r-body-c,
+.stod-bleed--n-body-a, .stod-bleed--n-body-b, .stod-bleed--n-body-c {
+  opacity: 1;
+}
+
+.stod-pigment--red .stod-bleed--r-body-a,
+.stod-pigment--red .stod-bleed--r-body-b,
+.stod-pigment--red .stod-bleed--r-body-c {
+  mask-image: radial-gradient(circle at 0% 0%, rgba(0,0,0,1) 0%, rgba(0,0,0,.96) 32%, rgba(0,0,0,.85) 56%, rgba(0,0,0,.58) 76%, rgba(0,0,0,.25) 91%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: radial-gradient(circle at 0% 0%, rgba(0,0,0,1) 0%, rgba(0,0,0,.96) 32%, rgba(0,0,0,.85) 56%, rgba(0,0,0,.58) 76%, rgba(0,0,0,.25) 91%, rgba(0,0,0,0) 100%);
+}
+
+.stod-pigment--navy .stod-bleed--n-body-a,
+.stod-pigment--navy .stod-bleed--n-body-b,
+.stod-pigment--navy .stod-bleed--n-body-c {
+  mask-image: radial-gradient(circle at 100% 100%, rgba(0,0,0,1) 0%, rgba(0,0,0,.96) 32%, rgba(0,0,0,.85) 56%, rgba(0,0,0,.58) 76%, rgba(0,0,0,.25) 91%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: radial-gradient(circle at 100% 100%, rgba(0,0,0,1) 0%, rgba(0,0,0,.96) 32%, rgba(0,0,0,.85) 56%, rgba(0,0,0,.58) 76%, rgba(0,0,0,.25) 91%, rgba(0,0,0,0) 100%);
+}
+
+/* pooling layer: faint, multiplied */
+.stod-bleed--r-pool, .stod-bleed--n-pool {
+  opacity: .2;
+  mix-blend-mode: multiply;
+}
+
+.stod-pigment--red .stod-bleed--r-pool {
+  mask-image: radial-gradient(circle at 0% 0%, rgba(0,0,0,1) 0%, rgba(0,0,0,.7) 34%, rgba(0,0,0,.38) 60%, rgba(0,0,0,.14) 80%, rgba(0,0,0,0) 97%);
+  -webkit-mask-image: radial-gradient(circle at 0% 0%, rgba(0,0,0,1) 0%, rgba(0,0,0,.7) 34%, rgba(0,0,0,.38) 60%, rgba(0,0,0,.14) 80%, rgba(0,0,0,0) 97%);
+}
+
+.stod-pigment--navy .stod-bleed--n-pool {
+  mask-image: radial-gradient(circle at 100% 100%, rgba(0,0,0,1) 0%, rgba(0,0,0,.7) 34%, rgba(0,0,0,.38) 60%, rgba(0,0,0,.14) 80%, rgba(0,0,0,0) 97%);
+  -webkit-mask-image: radial-gradient(circle at 100% 100%, rgba(0,0,0,1) 0%, rgba(0,0,0,.7) 34%, rgba(0,0,0,.38) 60%, rgba(0,0,0,.14) 80%, rgba(0,0,0,0) 97%);
+}
+
+/* rest clip-path (0-size, same origin as the end state) + the growth transition.
+   Both ends of every clip-path must share the same shape function (ellipse->ellipse)
+   or the transition won't interpolate and the colour will jump in at once. */
+.stod-bleed--r-wisp-a { clip-path: ellipse(0% 0% at -4% -14%); transition: clip-path 3.0s cubic-bezier(.42,.1,.42,.98), mask-size 3.0s cubic-bezier(.42,.1,.42,.98), -webkit-mask-size 3.0s cubic-bezier(.42,.1,.42,.98); }
+.stod--red .stod-bleed--r-wisp-a { clip-path: ellipse(168% 184% at -4% -14%); mask-size: 196% 208%; -webkit-mask-size: 196% 208%; }
+
+.stod-bleed--r-wisp-b { clip-path: ellipse(0% 0% at 14% -6%); transition: clip-path 3.7s cubic-bezier(.4,.12,.44,.98), mask-size 3.7s cubic-bezier(.4,.12,.44,.98), -webkit-mask-size 3.7s cubic-bezier(.4,.12,.44,.98); }
+.stod--red .stod-bleed--r-wisp-b { clip-path: ellipse(136% 166% at 14% -6%); mask-size: 160% 190%; -webkit-mask-size: 160% 190%; }
+
+.stod-bleed--r-body-a { clip-path: ellipse(0% 0% at -4% -14%); transition: clip-path 3.4s cubic-bezier(.44,.08,.4,.98), mask-size 3.4s cubic-bezier(.44,.08,.4,.98), -webkit-mask-size 3.4s cubic-bezier(.44,.08,.4,.98); }
+.stod--red .stod-bleed--r-body-a { clip-path: ellipse(150% 164% at -4% -14%); mask-size: 172% 188%; -webkit-mask-size: 172% 188%; }
+
+.stod-bleed--r-body-b { clip-path: ellipse(0% 0% at 16% -4%); transition: clip-path 4.3s cubic-bezier(.4,.1,.42,.98), mask-size 4.3s cubic-bezier(.4,.1,.42,.98), -webkit-mask-size 4.3s cubic-bezier(.4,.1,.42,.98); }
+.stod--red .stod-bleed--r-body-b { clip-path: ellipse(121% 149% at 16% -4%); mask-size: 142% 172%; -webkit-mask-size: 142% 172%; }
+
+.stod-bleed--r-body-c { clip-path: ellipse(0% 0% at -16% 8%); transition: clip-path 3.9s cubic-bezier(.46,.07,.4,.98), mask-size 3.9s cubic-bezier(.46,.07,.4,.98), -webkit-mask-size 3.9s cubic-bezier(.46,.07,.4,.98); }
+.stod--red .stod-bleed--r-body-c { clip-path: ellipse(164% 131% at -16% 8%); mask-size: 188% 152%; -webkit-mask-size: 188% 152%; }
+
+.stod-bleed--r-pool { clip-path: ellipse(0% 0% at -4% -14%); transition: clip-path 2.6s cubic-bezier(.44,.1,.4,.98), mask-size 2.6s cubic-bezier(.44,.1,.4,.98), -webkit-mask-size 2.6s cubic-bezier(.44,.1,.4,.98); }
+.stod--red .stod-bleed--r-pool { clip-path: ellipse(88% 97% at -4% -14%); mask-size: 102% 112%; -webkit-mask-size: 102% 112%; }
+
+.stod-bleed--n-wisp-a { clip-path: ellipse(0% 0% at 104% 114%); transition: clip-path 3.0s cubic-bezier(.42,.1,.42,.98), mask-size 3.0s cubic-bezier(.42,.1,.42,.98), -webkit-mask-size 3.0s cubic-bezier(.42,.1,.42,.98); }
+.stod--blue .stod-bleed--n-wisp-a { clip-path: ellipse(168% 184% at 104% 114%); mask-size: 196% 208%; -webkit-mask-size: 196% 208%; }
+
+.stod-bleed--n-wisp-b { clip-path: ellipse(0% 0% at 86% 106%); transition: clip-path 3.7s cubic-bezier(.4,.12,.44,.98), mask-size 3.7s cubic-bezier(.4,.12,.44,.98), -webkit-mask-size 3.7s cubic-bezier(.4,.12,.44,.98); }
+.stod--blue .stod-bleed--n-wisp-b { clip-path: ellipse(136% 166% at 86% 106%); mask-size: 160% 190%; -webkit-mask-size: 160% 190%; }
+
+.stod-bleed--n-body-a { clip-path: ellipse(0% 0% at 104% 114%); transition: clip-path 3.4s cubic-bezier(.44,.08,.4,.98), mask-size 3.4s cubic-bezier(.44,.08,.4,.98), -webkit-mask-size 3.4s cubic-bezier(.44,.08,.4,.98); }
+.stod--blue .stod-bleed--n-body-a { clip-path: ellipse(150% 164% at 104% 114%); mask-size: 172% 188%; -webkit-mask-size: 172% 188%; }
+
+.stod-bleed--n-body-b { clip-path: ellipse(0% 0% at 84% 104%); transition: clip-path 4.3s cubic-bezier(.4,.1,.42,.98), mask-size 4.3s cubic-bezier(.4,.1,.42,.98), -webkit-mask-size 4.3s cubic-bezier(.4,.1,.42,.98); }
+.stod--blue .stod-bleed--n-body-b { clip-path: ellipse(121% 149% at 84% 104%); mask-size: 142% 172%; -webkit-mask-size: 142% 172%; }
+
+.stod-bleed--n-body-c { clip-path: ellipse(0% 0% at 116% 92%); transition: clip-path 3.9s cubic-bezier(.46,.07,.4,.98), mask-size 3.9s cubic-bezier(.46,.07,.4,.98), -webkit-mask-size 3.9s cubic-bezier(.46,.07,.4,.98); }
+.stod--blue .stod-bleed--n-body-c { clip-path: ellipse(164% 131% at 116% 92%); mask-size: 188% 152%; -webkit-mask-size: 188% 152%; }
+
+.stod-bleed--n-pool { clip-path: ellipse(0% 0% at 104% 114%); transition: clip-path 2.6s cubic-bezier(.44,.1,.4,.98), mask-size 2.6s cubic-bezier(.44,.1,.4,.98), -webkit-mask-size 2.6s cubic-bezier(.44,.1,.4,.98); }
+.stod--blue .stod-bleed--n-pool { clip-path: ellipse(88% 97% at 104% 114%); mask-size: 102% 112%; -webkit-mask-size: 102% 112%; }
+
+/* paper grain, per colour: feTurbulence tile masked by that colour's own wordmark */
+.stod-grain {
+  position: absolute;
+  inset: 0;
+  opacity: .3;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)' opacity='.55'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.stod-grain--navy {
+  mask-image: url("assets/logo-navy.svg");
+  -webkit-mask-image: url("assets/logo-navy.svg");
+}
+
+.stod-grain--red {
+  mask-image: url("assets/logo-red.svg");
+  -webkit-mask-image: url("assets/logo-red.svg");
+}
+
+/* -- the purple bloom: the only purple in the piece, fired once both fronts meet -- */
+
+.stod-bloom {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-image: radial-gradient(circle at 50% 47%, rgba(0,0,0,1) 0%, rgba(0,0,0,.94) 30%, rgba(0,0,0,.72) 54%, rgba(0,0,0,.4) 74%, rgba(0,0,0,.14) 89%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: radial-gradient(circle at 50% 47%, rgba(0,0,0,1) 0%, rgba(0,0,0,.94) 30%, rgba(0,0,0,.72) 54%, rgba(0,0,0,.4) 74%, rgba(0,0,0,.14) 89%, rgba(0,0,0,0) 100%);
+  mask-size: 16% 18%;
+  -webkit-mask-size: 16% 18%;
+  transition: opacity 1.5s ease, mask-size 2.1s cubic-bezier(.4,.12,.42,.98), -webkit-mask-size 2.1s cubic-bezier(.4,.12,.42,.98);
+  pointer-events: none;
+}
+
+.stod--met .stod-bloom {
+  opacity: 1;
+  mask-size: 158% 168%;
+  -webkit-mask-size: 158% 168%;
+}
+
+.stod-bloom img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+}
+
+.stod-intro-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 44px;
+  display: flex;
+  justify-content: center;
   font-weight: 300;
-  font-style: italic;
-  font-size: 56px;
-  line-height: 1;
-  color: #f5d9a0;
-  text-shadow: 0 0 28px rgba(245,217,160,.5);
+  font-size: 9.5px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: rgba(42,28,12,.66);
+  text-align: center;
+  opacity: 1;
+  transition: opacity .8s ease;
+  z-index: 5;
 }
 
-.stod-seal-rule {
-  width: 30px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(245,217,160,.7), transparent);
+.stod--flying .stod-intro-caption {
+  opacity: 0;
 }
 
 /* ---------- sunset scroll panel ---------- */
@@ -273,6 +465,12 @@ html, body {
   width: min(78vw, 300px);
   height: auto;
   display: block;
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+
+.stod--landed .stod-logo {
+  opacity: 1;
 }
 
 .stod-names {
@@ -862,20 +1060,21 @@ html, body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stod-envelope-layer,
-  .stod-sunset {
-    transition-duration: .3s;
+  .stod-intro,
+  .stod-sunset,
+  .stod-logo {
+    transition-duration: .01s;
     transition-delay: 0s;
   }
-  .stod-envelope-card,
-  .stod-flap {
+  .stod-intro-logo,
+  .stod-drop,
+  .stod-bloom,
+  .stod-bleed {
     transition: none;
   }
-  .stod-tap-label,
-  .stod-seal,
-  .stod-glow {
+  .stod-drop-dot,
+  .stod-intro-glow {
     animation: none;
-    opacity: .75;
   }
   .stod-cue-sun {
     animation: none;

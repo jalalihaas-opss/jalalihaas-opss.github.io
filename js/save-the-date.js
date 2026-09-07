@@ -105,7 +105,6 @@ function pad(n, width) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('stod-root');
-  const envelope = document.getElementById('stod-envelope');
   const sky = document.getElementById('stod-sky');
   const calendarBtn = document.getElementById('stod-calendar-btn');
   const calendarMenu = document.getElementById('stod-calendar-menu');
@@ -114,23 +113,70 @@ document.addEventListener('DOMContentLoaded', () => {
     drawSky(sky);
   }
 
-  function openEnvelope() {
-    if (root.classList.contains('stod--open')) return;
-    root.classList.add('stod--open');
-    setTimeout(draw, 400);
-  }
-
-  envelope.addEventListener('click', openEnvelope);
-  envelope.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      openEnvelope();
-    }
-  });
-
   window.addEventListener('resize', draw);
   draw();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+
+  // ---------- intro: paint in water ----------
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const introLogo = document.getElementById('stod-intro-logo');
+  const heroLogo = document.getElementById('stod-hero-logo');
+  const caption = document.getElementById('stod-intro-caption');
+  const dropRed = document.getElementById('stod-drop-red');
+  const dropBlue = document.getElementById('stod-drop-blue');
+
+  if (reduceMotion) {
+    root.classList.add('stod--landed', 'stod--open');
+  } else {
+    const timers = {};
+    const paint = { red: false, blue: false };
+
+    function setCaption() {
+      caption.textContent = (paint.red && paint.blue) ? 'Always & forever'
+        : (paint.red || paint.blue) ? 'Now the other'
+        : 'Touch the paint to the water';
+    }
+
+    function dip(which, auto) {
+      if (paint[which]) return;
+      if (!auto) {
+        clearTimeout(timers.autoRed);
+        clearTimeout(timers.autoBlue);
+        const other = which === 'red' ? 'blue' : 'red';
+        timers.autoOther = setTimeout(() => dip(other, true), 1400);
+      }
+      paint[which] = true;
+      root.classList.add(which === 'red' ? 'stod--red' : 'stod--blue');
+      setCaption();
+      if (paint.red && paint.blue) {
+        timers.met = setTimeout(() => root.classList.add('stod--met'), 1250);
+        timers.takeOff = setTimeout(fly, 1800);
+      }
+    }
+
+    function fly() {
+      let flight = 'translate(0,-6vh) scale(.94)';
+      if (introLogo && heroLogo) {
+        const ra = introLogo.getBoundingClientRect();
+        const rb = heroLogo.getBoundingClientRect();
+        const s = rb.width / ra.width;
+        const dx = (rb.left + rb.width / 2) - (ra.left + ra.width / 2);
+        const dy = (rb.top + rb.height / 2) - (ra.top + ra.height / 2);
+        flight = 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) scale(' + s.toFixed(3) + ')';
+      }
+      introLogo.style.transform = flight;
+      caption.textContent = '';
+      root.classList.add('stod--flying', 'stod--open');
+      setTimeout(draw, 500);
+      timers.land = setTimeout(() => root.classList.add('stod--landed'), 2700);
+    }
+
+    dropRed.addEventListener('click', () => dip('red'));
+    dropBlue.addEventListener('click', () => dip('blue'));
+
+    timers.autoRed = setTimeout(() => dip('red', true), 2000);
+    timers.autoBlue = setTimeout(() => dip('blue', true), 2750);
+  }
 
   const target = new Date(WEDDING_DATE_ISO).getTime();
   const daysEl = document.getElementById('stod-cd-days');

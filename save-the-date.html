@@ -7,7 +7,7 @@
   <meta name="description" content="Morgan &amp; Navid are getting married — 14–15 May 2027.">
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
   <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <meta name="theme-color" content="#17100a">
+  <meta name="theme-color" content="#f0e3d3">
   <meta property="og:title" content="Morgan &amp; Navid are getting married">
   <meta property="og:description" content="Save the date · 14–15 May 2027">
   <link rel="stylesheet" href="css/fonts.css">
@@ -16,45 +16,61 @@
 <body>
   <div id="stod-root" class="stod">
 
-    <div id="stod-envelope" class="stod-envelope-layer" role="button" tabindex="0" aria-label="Open your save the date">
-      <div class="stod-glow" aria-hidden="true"></div>
-
-      <div class="stod-envelope-card">
-        <div class="stod-envelope-bg"></div>
-        <div class="stod-envelope-hairline"></div>
-
-        <svg class="stod-envelope-seams" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="0" y1="100" x2="50" y2="56" vector-effect="non-scaling-stroke"></line>
-          <line x1="100" y1="100" x2="50" y2="56" vector-effect="non-scaling-stroke"></line>
-          <line x1="0" y1="100" x2="50" y2="100" vector-effect="non-scaling-stroke"></line>
-          <line x1="100" y1="100" x2="50" y2="100" vector-effect="non-scaling-stroke"></line>
-        </svg>
-
-        <div class="stod-flap-fold-shadow" aria-hidden="true"></div>
-
-        <div class="stod-tap-label">Tap to open</div>
-
-        <div class="stod-flap">
-          <svg class="stod-flap-highlight" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-            <line x1="3" y1="4" x2="50" y2="94" vector-effect="non-scaling-stroke"></line>
-            <line x1="97" y1="4" x2="50" y2="94" vector-effect="non-scaling-stroke"></line>
-          </svg>
-          <div class="stod-flap-label">Save the date</div>
-        </div>
-
-        <div class="stod-seal-halo" aria-hidden="true"></div>
-        <div class="stod-seal">
-          <div class="stod-seal-amp">&amp;</div>
-          <div class="stod-seal-rule"></div>
-        </div>
+    <div id="stod-intro" class="stod-intro">
+      <div class="stod-intro-photo-wrap" aria-hidden="true">
+        <img class="stod-intro-photo" src="assets/coast-sunset.webp" alt="">
       </div>
+      <div class="stod-intro-scrim" aria-hidden="true"></div>
+      <div class="stod-intro-wash" aria-hidden="true"></div>
+      <div class="stod-intro-glow" aria-hidden="true"></div>
+
+      <div id="stod-intro-logo" class="stod-intro-logo">
+
+        <button type="button" id="stod-drop-red" class="stod-drop stod-drop--red" aria-label="Release the red paint">
+          <span class="stod-drop-label">Morgan</span>
+          <span class="stod-drop-dot"></span>
+        </button>
+
+        <img class="stod-intro-trace" src="assets/logo-morgan-navid.svg" alt="">
+
+        <div class="stod-pigment stod-pigment--navy">
+          <img class="stod-bleed stod-bleed--n-wisp-a" src="assets/logo-navy.svg" alt="">
+          <img class="stod-bleed stod-bleed--n-wisp-b" src="assets/logo-navy.svg" alt="">
+          <img class="stod-bleed stod-bleed--n-body-a" src="assets/logo-navy.svg" alt="">
+          <img class="stod-bleed stod-bleed--n-body-b" src="assets/logo-navy.svg" alt="">
+          <img class="stod-bleed stod-bleed--n-body-c" src="assets/logo-navy.svg" alt="">
+          <img class="stod-bleed stod-bleed--n-pool" src="assets/logo-navy.svg" alt="">
+          <div class="stod-grain stod-grain--navy" aria-hidden="true"></div>
+        </div>
+
+        <div class="stod-pigment stod-pigment--red">
+          <img class="stod-bleed stod-bleed--r-wisp-a" src="assets/logo-red.svg" alt="">
+          <img class="stod-bleed stod-bleed--r-wisp-b" src="assets/logo-red.svg" alt="">
+          <img class="stod-bleed stod-bleed--r-body-a" src="assets/logo-red.svg" alt="">
+          <img class="stod-bleed stod-bleed--r-body-b" src="assets/logo-red.svg" alt="">
+          <img class="stod-bleed stod-bleed--r-body-c" src="assets/logo-red.svg" alt="">
+          <img class="stod-bleed stod-bleed--r-pool" src="assets/logo-red.svg" alt="">
+          <div class="stod-grain stod-grain--red" aria-hidden="true"></div>
+        </div>
+
+        <div class="stod-bloom">
+          <img src="assets/logo-blend.svg" alt="">
+        </div>
+
+        <button type="button" id="stod-drop-blue" class="stod-drop stod-drop--blue" aria-label="Release the indigo paint">
+          <span class="stod-drop-dot"></span>
+          <span class="stod-drop-label">Navid</span>
+        </button>
+      </div>
+
+      <div id="stod-intro-caption" class="stod-intro-caption">Touch the paint to the water</div>
     </div>
 
     <div class="stod-sunset">
       <div class="stod-sunset-inner">
 
         <section class="stod-screen1">
-          <img class="stod-logo" src="assets/logo-morgan-navid.svg" alt="Morgan and Navid">
+          <img id="stod-hero-logo" class="stod-logo" src="assets/logo-morgan-navid.svg" alt="Morgan and Navid">
           <div class="stod-names">
             <div class="stod-names-lines">
               <div class="stod-name">Morgan Cundiff</div>
