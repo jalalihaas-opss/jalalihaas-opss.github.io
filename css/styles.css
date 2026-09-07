@@ -1420,6 +1420,7 @@ body.is-locked {
   padding: 44px 20px 72px;
   display: flex;
   justify-content: center;
+  min-height: 100vh;
 }
 
 .rsvp-page__col {
