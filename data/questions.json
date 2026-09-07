@@ -48,6 +48,21 @@
     "scope": "person"
   },
   {
+    "id": "soccer",
+    "label": "Would you participate in a group soccer game?",
+    "type": "select",
+    "options": ["Yes", "No"],
+    "scope": "person"
+  },
+  {
+    "id": "jersey_size",
+    "label": "What is your jersey size?",
+    "type": "select",
+    "options": ["XS", "S", "M", "L", "XL", "XXL"],
+    "scope": "person",
+    "dependsOn": { "id": "soccer", "value": "Yes" }
+  },
+  {
     "id": "notes",
     "label": "Anything else we should know?",
     "type": "text",

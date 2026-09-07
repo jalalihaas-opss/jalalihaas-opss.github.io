@@ -103,7 +103,8 @@ async function renderQuestionForm(party) {
 
     html += `<div id="person__${slug(member.name)}__rest">`;
     restQuestions.forEach((q) => {
-      html += fieldHTML(q, `person__${slug(member.name)}__${q.id}`, member.kidStatus);
+      const field = fieldHTML(q, `person__${slug(member.name)}__${q.id}`, member.kidStatus);
+      html += q.dependsOn ? `<div id="person__${slug(member.name)}__${q.id}__wrap">${field}</div>` : field;
     });
     html += '</div>';
 
@@ -122,19 +123,41 @@ async function renderQuestionForm(party) {
   formWrap.hidden = false;
   document.getElementById('answers-form').addEventListener('submit', onSubmitAnswers);
 
+  const dependentQuestions = personQuestions.filter((q) => q.dependsOn);
+
   party.members.forEach((member) => {
     const attendingEl = document.getElementById(`person__${slug(member.name)}__attending`);
     const restEl = document.getElementById(`person__${slug(member.name)}__rest`);
     if (!attendingEl || !restEl) return;
-    const sync = () => {
+
+    // Each dependent field (e.g. jersey size on soccer) has its own show/hide
+    // rule nested inside `restEl`. `syncAttending` below re-enables everything
+    // in `restEl` in one sweep, which would clobber a dependent field that
+    // should stay disabled — so every dependent sync also re-runs after it.
+    const depSyncs = [];
+    dependentQuestions.forEach((q) => {
+      const controlEl = document.getElementById(`person__${slug(member.name)}__${q.dependsOn.id}`);
+      const wrapEl = document.getElementById(`person__${slug(member.name)}__${q.id}__wrap`);
+      if (!controlEl || !wrapEl) return;
+      const syncDep = () => {
+        const show = controlEl.value === q.dependsOn.value;
+        wrapEl.hidden = !show;
+        wrapEl.querySelectorAll('select, input').forEach((el) => { el.disabled = !show; });
+      };
+      controlEl.addEventListener('change', syncDep);
+      depSyncs.push(syncDep);
+    });
+
+    const syncAttending = () => {
       const declined = attendingEl.value === 'Regretfully declines';
       restEl.hidden = declined;
       // `hidden` alone isn't enough — required fields inside a hidden container
       // still block native form validation, so disable them too once declined.
       restEl.querySelectorAll('select, input').forEach((el) => { el.disabled = declined; });
+      depSyncs.forEach((syncDep) => syncDep());
     };
-    attendingEl.addEventListener('change', sync);
-    sync();
+    attendingEl.addEventListener('change', syncAttending);
+    syncAttending();
   });
 }
 
