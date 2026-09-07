@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function setCaption() {
       caption.textContent = (paint.red && paint.blue) ? 'Always & forever'
         : (paint.red || paint.blue) ? 'Now the other'
-        : 'Touch the paint to the water';
+        : 'Tap the circles to paint';
     }
 
     function dip(which, auto) {
@@ -174,8 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
     dropRed.addEventListener('click', () => dip('red'));
     dropBlue.addEventListener('click', () => dip('blue'));
 
-    timers.autoRed = setTimeout(() => dip('red', true), 2000);
-    timers.autoBlue = setTimeout(() => dip('blue', true), 2750);
+    timers.autoRed = setTimeout(() => dip('red', true), 2600);
+    timers.autoBlue = setTimeout(() => dip('blue', true), 3350);
   }
 
   const target = new Date(WEDDING_DATE_ISO).getTime();
