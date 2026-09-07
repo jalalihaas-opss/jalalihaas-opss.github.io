@@ -1508,15 +1508,15 @@ body.is-locked {
   gap: 8px;
 }
 
-.rsvp-field label {
+.rsvp-field label,
+.rsvp-field-label {
   font: 300 10.5px var(--font-sans);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(42, 33, 24, 0.6);
 }
 
-.rsvp-field input,
-.rsvp-field select {
+.rsvp-field input {
   width: 100%;
   padding: 14px 18px;
   border: 1px solid var(--hairline-gold);
@@ -1526,19 +1526,77 @@ body.is-locked {
   font: 400 13px var(--font-sans);
 }
 
-.rsvp-field select {
-  appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%),
-    linear-gradient(135deg, var(--ink) 50%, transparent 50%);
-  background-position: calc(100% - 22px) center, calc(100% - 17px) center;
-  background-size: 5px 5px, 5px 5px;
-  background-repeat: no-repeat;
-}
-
-.rsvp-field input:focus,
-.rsvp-field select:focus {
+.rsvp-field input:focus {
   outline: none;
   border-color: var(--hairline-gold-strong);
+}
+
+.rsvp-fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rsvp-fieldset legend {
+  padding: 0;
+}
+
+.rsvp-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rsvp-option {
+  position: relative;
+  display: inline-flex;
+}
+
+.rsvp-option-input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.rsvp-option-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border: 1px solid var(--hairline-gold);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 12.5px var(--font-sans);
+  letter-spacing: 0.02em;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out),
+    border-color 160ms var(--ease-out);
+}
+
+.rsvp-option-input:checked + .rsvp-option-btn {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--hero-fg-2);
+}
+
+.rsvp-option-input:focus-visible + .rsvp-option-btn {
+  outline: 2px solid var(--gold-600);
+  outline-offset: 2px;
+}
+
+.rsvp-option-input:disabled + .rsvp-option-btn {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .rsvp-page__form-wrap .pill--lg {

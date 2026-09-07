@@ -43,8 +43,13 @@ async function callApi(action, params) {
   return res.json();
 }
 
+// A "select" question renders as a row of selectable buttons (radios styled
+// as pills) rather than a native dropdown — every option is visible at once.
+// `fieldId` is set on the wrapping options container, not on a single input,
+// since there's no one element left to hold the value; see fieldValue().
 function fieldHTML(question, fieldId, kidStatus) {
-  const requiredAttr = question.required === false ? '' : 'required';
+  const required = question.required !== false;
+  const requiredAttr = required ? 'required' : '';
 
   if (question.type === 'select') {
     let optionList = question.options || [];
@@ -57,15 +62,21 @@ function fieldHTML(question, fieldId, kidStatus) {
       optionList = optionList.concat(question.kidsMealLabel, 'None');
     }
     const options = optionList
-      .map((o) => `<option value="${escapeHTML(o)}">${escapeHTML(o)}</option>`)
+      .map((o) => {
+        const optId = `${fieldId}__${slug(o)}`;
+        return `
+          <label class="rsvp-option">
+            <input type="radio" class="rsvp-option-input" id="${optId}" name="${fieldId}" value="${escapeHTML(o)}" ${requiredAttr}>
+            <span class="rsvp-option-btn">${escapeHTML(o)}</span>
+          </label>`;
+      })
       .join('');
     return `
       <div class="rsvp-field">
-        <label for="${fieldId}">${escapeHTML(question.label)}</label>
-        <select id="${fieldId}" ${requiredAttr}>
-          <option value="" disabled selected>Choose one</option>
-          ${options}
-        </select>
+        <fieldset class="rsvp-fieldset">
+          <legend class="rsvp-field-label">${escapeHTML(question.label)}</legend>
+          <div class="rsvp-options" id="${fieldId}">${options}</div>
+        </fieldset>
       </div>`;
   }
   return `
@@ -73,6 +84,15 @@ function fieldHTML(question, fieldId, kidStatus) {
       <label for="${fieldId}">${escapeHTML(question.label)}</label>
       <input type="text" id="${fieldId}" placeholder="Type your answer">
     </div>`;
+}
+
+// Reads the current answer whether `el` is a plain text input or an options
+// container holding a radio-button row (see fieldHTML above).
+function fieldValue(el) {
+  if (!el) return '';
+  if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') return el.value;
+  const checked = el.querySelector('input:checked');
+  return checked ? checked.value : '';
 }
 
 async function renderQuestionForm(party) {
@@ -140,20 +160,20 @@ async function renderQuestionForm(party) {
       const wrapEl = document.getElementById(`person__${slug(member.name)}__${q.id}__wrap`);
       if (!controlEl || !wrapEl) return;
       const syncDep = () => {
-        const show = controlEl.value === q.dependsOn.value;
+        const show = fieldValue(controlEl) === q.dependsOn.value;
         wrapEl.hidden = !show;
-        wrapEl.querySelectorAll('select, input').forEach((el) => { el.disabled = !show; });
+        wrapEl.querySelectorAll('input, fieldset').forEach((el) => { el.disabled = !show; });
       };
       controlEl.addEventListener('change', syncDep);
       depSyncs.push(syncDep);
     });
 
     const syncAttending = () => {
-      const declined = attendingEl.value === 'Regretfully declines';
+      const declined = fieldValue(attendingEl) === 'Regretfully declines';
       restEl.hidden = declined;
       // `hidden` alone isn't enough — required fields inside a hidden container
       // still block native form validation, so disable them too once declined.
-      restEl.querySelectorAll('select, input').forEach((el) => { el.disabled = declined; });
+      restEl.querySelectorAll('input, fieldset').forEach((el) => { el.disabled = declined; });
       depSyncs.forEach((syncDep) => syncDep());
     };
     attendingEl.addEventListener('change', syncAttending);
@@ -209,7 +229,7 @@ async function onSubmitAnswers(event) {
       .filter((q) => q.scope === 'party')
       .forEach((q) => {
         const el = form.querySelector(`#party__${q.id}`);
-        if (el) partyAnswers[q.id] = el.value;
+        if (el) partyAnswers[q.id] = fieldValue(el);
       });
 
     const responses = currentParty.members.map((member) => {
@@ -218,7 +238,7 @@ async function onSubmitAnswers(event) {
         .filter((q) => q.scope !== 'party')
         .forEach((q) => {
           const el = form.querySelector(`#person__${slug(member.name)}__${q.id}`);
-          if (el) answers[q.id] = el.value;
+          if (el) answers[q.id] = fieldValue(el);
         });
       return { guestName: member.name, kidStatus: member.kidStatus, answers };
     });
