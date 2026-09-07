@@ -1499,7 +1499,10 @@ body.is-locked {
   display: none !important;
 }
 
-.rsvp2 button {
+/* :where() keeps this a pure reset — zero specificity on the `button` part —
+   so component rules like .rsvp2-card__header's padding always win instead of
+   losing to this on specificity (class+type beats a lone class selector). */
+.rsvp2 :where(button) {
   font: inherit;
   color: inherit;
   background: none;
