@@ -33,7 +33,7 @@ const LINES = [
   ["Zubenelgenubi","Zubeneschamali"],["Polaris","Kochab"],["Kochab","Thuban"]
 ];
 
-const WEDDING_DATE_ISO = '2027-05-14T16:00:00';
+const WEDDING_DATE_ISO = '2027-05-14T18:00:00';
 
 function altaz(raDeg, decDeg, jd, latDeg, lonDeg) {
   const d2r = Math.PI / 180;

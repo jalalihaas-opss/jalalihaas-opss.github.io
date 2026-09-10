@@ -910,25 +910,67 @@ html, body {
   position: relative;
   display: flex;
   align-items: flex-end;
-  gap: 14px;
+  gap: clamp(6px, 2.4vw, 18px);
+}
+
+.stod-countdown-row {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(6px, 2.4vw, 18px);
+}
+
+/* Below this, "days:hrs:min:sec" no longer fits one line at this size —
+   stack as two rows (days:hrs / min:sec) and drop the middle colon, which
+   stops making sense once the two pairs aren't side by side. The value's
+   font-size caps out at 130px around a 765px viewport, and the row needs
+   ~930px of its own to fit after that, so the crossover to "fits in one
+   line again" isn't until roughly 980px wide — stack anywhere below that. */
+@media (max-width: 1024px) {
+  .stod-countdown {
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(10px, 4vw, 20px);
+  }
+
+  .stod-countdown-row {
+    justify-content: center;
+  }
+
+  .stod-countdown-sep--mid {
+    display: none;
+  }
 }
 
 .stod-countdown-cell {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 }
 
 .stod-countdown-value {
   font-family: ui-monospace, Menlo, monospace;
-  font-size: 22px;
-  color: #fff5e4;
+  font-weight: 600;
+  font-size: clamp(56px, 17vw, 130px);
+  line-height: 1;
+  /* Ocean-water crop of the same photo from the intro screen — the breaking
+     wave (foam curling into blue-shadowed water), not the hazy sky/glare
+     above it. Fixed px size/position (not cover/%) so every cell —
+     regardless of its own box width — windows onto the same continuous spot
+     in the image instead of each re-centering independently. */
+  background-image: url('../assets/coast-sunset.webp');
+  background-size: 897px 1121px;
+  background-position: -561px -808px;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .stod-countdown-label {
   font-family: ui-monospace, Menlo, monospace;
-  font-size: 8px;
+  font-size: clamp(10px, 2.3vw, 14px);
   letter-spacing: .16em;
   text-transform: uppercase;
   color: rgba(245,217,160,.6);
@@ -936,9 +978,9 @@ html, body {
 
 .stod-countdown-sep {
   font-family: ui-monospace, Menlo, monospace;
-  font-size: 18px;
+  font-size: clamp(28px, 8.5vw, 65px);
   color: rgba(245,217,160,.5);
-  padding-bottom: 14px;
+  padding-bottom: clamp(14px, 3.6vw, 24px);
 }
 
 .stod-actions {
