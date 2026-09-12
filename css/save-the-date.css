@@ -442,7 +442,10 @@ html, body {
 
 .stod-sunset-inner {
   position: relative;
-  background: linear-gradient(180deg, #fffaf1 0%, #fdf0d5 16%, #f7d99b 30%, #e8b055 44%, #c07a1d 57%, #7c4a12 69%, #3a240c 82%, #150e06 96%);
+  /* Same progression as before, compressed to land on full dark ~14 points
+     earlier (82% instead of 96%) so screen 3 / the countdown sits against
+     a properly dark background sooner instead of still fading in behind it. */
+  background: linear-gradient(180deg, #fffaf1 0%, #fdf0d5 14%, #f7d99b 26%, #e8b055 37%, #c07a1d 48%, #7c4a12 59%, #3a240c 70%, #150e06 82%);
 }
 
 /* ---------- screen 1: daylight ---------- */
@@ -606,7 +609,7 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: 14px;
-  padding: 52px 26px 14px;
+  padding: 52px 26px 28px;
   box-sizing: border-box;
   text-align: center;
 }
@@ -797,7 +800,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  margin-top: 30px;
+  margin-top: 60px;
   width: min(78vw, 268px);
 }
 
@@ -853,7 +856,7 @@ html, body {
 }
 
 .stod-cue2-wrap {
-  margin-top: 14px;
+  margin-top: 44px;
 }
 
 /* ---------- screen 3: night ---------- */
@@ -865,8 +868,8 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 30px;
-  padding: 18px 26px calc(64px + env(safe-area-inset-bottom));
+  gap: 50px;
+  padding: 36px 26px calc(64px + env(safe-area-inset-bottom));
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
@@ -909,13 +912,13 @@ html, body {
 .stod-countdown {
   position: relative;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: clamp(6px, 2.4vw, 18px);
 }
 
 .stod-countdown-row {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: clamp(6px, 2.4vw, 18px);
 }
 
@@ -929,14 +932,14 @@ html, body {
   .stod-countdown {
     flex-direction: column;
     align-items: center;
-    gap: clamp(10px, 4vw, 20px);
+    gap: clamp(16px, 5.5vw, 28px);
   }
 
   .stod-countdown-row {
     justify-content: center;
   }
 
-  .stod-countdown-sep--mid {
+  .stod-countdown-sep.stod-countdown-sep--mid {
     display: none;
   }
 }
@@ -945,14 +948,19 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
 }
 
 .stod-countdown-value {
   font-family: ui-monospace, Menlo, monospace;
   font-weight: 600;
-  font-size: clamp(56px, 17vw, 130px);
+  font-size: clamp(42px, 13vw, 100px);
   line-height: 1;
+  /* Real "wide" cuts aren't available for a system monospace stack, so fake
+     it: shrink the font-size (smaller/shorter) then stretch horizontally —
+     reads as a wide, chunky digit rather than just a small one. */
+  transform: scaleX(1.22);
+  transform-origin: center;
   /* Ocean-water crop of the same photo from the intro screen — the breaking
      wave (foam curling into blue-shadowed water), not the hazy sky/glare
      above it. Fixed px size/position (not cover/%) so every cell —
@@ -977,10 +985,16 @@ html, body {
 }
 
 .stod-countdown-sep {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Matches .stod-countdown-value's font-size exactly, so centering the
+     colon glyph in this box centers it on the digits rather than on the
+     value+label cell as a whole (which is bottom-heavy from the label). */
+  height: clamp(42px, 13vw, 100px);
   font-family: ui-monospace, Menlo, monospace;
-  font-size: clamp(28px, 8.5vw, 65px);
+  font-size: clamp(21px, 6.5vw, 50px);
   color: rgba(245,217,160,.5);
-  padding-bottom: clamp(14px, 3.6vw, 24px);
 }
 
 .stod-actions {
