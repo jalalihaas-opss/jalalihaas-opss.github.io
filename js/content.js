@@ -31,7 +31,7 @@ export const events = [
   },
   {
     day: 'FRI',
-    time: '6:00 PM',
+    time: '5:00 PM',
     title: 'Ceremony',
     sublabel: 'Arroyo Terrace · outdoors onsite',
     audience: 'California Black tie',
@@ -40,7 +40,7 @@ export const events = [
   },
   {
     day: 'FRI',
-    time: '6:45 PM',
+    time: '5:30 PM',
     title: 'Cocktail Hour',
     sublabel: 'The Loggia · passed hors d’oeuvres',
     audience: 'All guests',
@@ -49,7 +49,7 @@ export const events = [
   },
   {
     day: 'FRI',
-    time: '7:30 PM',
+    time: '7:00 PM',
     title: 'Dinner & Toasts',
     sublabel: 'Arroyo Terrace · outdoors onsite',
     audience: 'All guests',
