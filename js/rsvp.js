@@ -527,12 +527,20 @@ async function renderQuestionForm(party) {
       flowEl.hidden = false;
       openIndex = 0;
       syncOpenStates();
+      updateAggregate(); // send button is left disabled after a successful submit — refresh it
     });
+  }
+
+  function setSending(isSending) {
+    sendBtn.classList.toggle('rsvp2-send--loading', isSending);
+    sendBtn.setAttribute('aria-busy', String(isSending));
+    sendBtn.querySelector('.rsvp2-send__label').textContent = isSending ? 'Sending your reply…' : 'Send our reply';
   }
 
   async function submitAnswers() {
     submitError.hidden = true;
     sendBtn.disabled = true;
+    setSending(true);
 
     try {
       const partyAnswers = {};
@@ -589,8 +597,10 @@ async function renderQuestionForm(party) {
       const result = await res.json();
       if (!result.ok) throw new Error(result.error || 'submit failed');
 
+      setSending(false);
       showConfirmation();
     } catch (err) {
+      setSending(false);
       sendBtn.disabled = !allAnswered();
       showError(
         submitError,

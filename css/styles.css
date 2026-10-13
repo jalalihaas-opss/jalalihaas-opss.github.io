@@ -2057,6 +2057,31 @@ body.is-locked {
   text-transform: uppercase;
 }
 
+/* Sending is itself a `disabled` state (blocks double-submits), so without
+   this it would fall back to the dim "not answered yet" look instead of
+   staying filled-in like an active, in-progress action. */
+.rsvp2-send--loading {
+  background: #2a1c0c;
+  border-color: #2a1c0c;
+  color: #fdf6e8;
+}
+
+.rsvp2-send--loading .rsvp2-send__dot {
+  background: rgba(233, 196, 124, 0.95);
+  animation: rsvp2SendPulse 1.1s ease-in-out infinite;
+}
+
+@keyframes rsvp2SendPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: rotate(45deg) scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: rotate(45deg) scale(0.75);
+  }
+}
+
 .rsvp2-progress {
   font-size: 10.5px;
   letter-spacing: 0.16em;
