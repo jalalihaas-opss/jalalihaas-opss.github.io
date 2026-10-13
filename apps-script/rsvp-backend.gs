@@ -116,12 +116,56 @@ function lookupParty(name) {
     }
   }
 
+  const existing = getExistingResponses(partyId);
+
   return {
     found: true,
     partyId: String(partyId),
     partyLabel: label || members.map(m => m.name).join(' & '),
     members,
+    previousAnswers: existing.byGuest, // { guestName: { questionId: value } }
+    partyAnswers: existing.partyAnswers, // { notes: value } if they'd already answered it
   };
+}
+
+// Pulls this party's most recent Responses row per guest, so the form can
+// come back pre-filled with what they already told us instead of blank.
+// Column names double as question ids (see submitResponse's ensureColumn),
+// so this is just "read every non-meta column back into an object" per row.
+function getExistingResponses(partyId) {
+  const result = { byGuest: {}, partyAnswers: {} };
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(RESPONSES_SHEET);
+  if (!sheet) return result;
+
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length < 2) return result;
+
+  const header = rows[0].map(h => String(h).trim());
+  const idxParty = findHeader(header, 'PartyID');
+  const idxName = findHeader(header, 'GuestName');
+  const metaCols = { Timestamp: 1, PartyID: 1, PartyLabel: 1, GuestName: 1, KidStatus: 1 };
+  // 'notes' is party-scoped (see data/questions.json) — every member's row
+  // carries the same value, so surface it once at the party level instead
+  // of duplicating it into each guest's per-question answers.
+  const partyScopedCols = { notes: 1 };
+
+  for (let i = 1; i < rows.length; i++) {
+    if (String(rows[i][idxParty]) !== String(partyId)) continue;
+    const guestName = String(rows[i][idxName]);
+    const answers = {};
+    header.forEach((col, ci) => {
+      if (metaCols[col] || partyScopedCols[col]) return;
+      const val = rows[i][ci];
+      if (val !== '' && val !== null && val !== undefined) answers[col] = val;
+    });
+    result.byGuest[guestName] = answers;
+
+    const notesIdx = findHeader(header, 'notes');
+    if (notesIdx > -1 && rows[i][notesIdx] !== '') {
+      result.partyAnswers.notes = rows[i][notesIdx];
+    }
+  }
+  return result;
 }
 
 // Key used to match a response row back to the person who sent it, so a
@@ -130,6 +174,36 @@ function lookupParty(name) {
 // if they happen to share a guest's name.
 function responseKey(partyId, guestName) {
   return normalize(partyId) + '|' + normalize(guestName);
+}
+
+// Mirrors the attending answer into the Guests sheet itself (1 = yes, 0 = no)
+// so the source guest list reflects the latest answer at a glance, not just
+// the Responses log — overwritten on every resubmission. Adds the Attending
+// column on first use if the sheet doesn't already have one. Returns true if
+// this guest had previously answered "no" and just switched to "yes".
+function syncGuestAttending(partyId, guestName, attendingYes) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(GUESTS_SHEET);
+  if (!sheet) return false;
+
+  const header = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(h => String(h).trim());
+  let idxAttending = findHeader(header, 'Attending');
+  if (idxAttending === -1) {
+    const newCol = sheet.getLastColumn() + 1;
+    sheet.getRange(1, newCol).setValue('Attending');
+    idxAttending = newCol - 1;
+  }
+
+  const idxParty = findHeader(header, 'PartyID');
+  const idxName = findHeader(header, 'GuestName');
+  const rows = sheet.getDataRange().getValues();
+  for (let i = 1; i < rows.length; i++) {
+    if (String(rows[i][idxParty]) !== String(partyId) || String(rows[i][idxName]) !== String(guestName)) continue;
+    const prev = rows[i][idxAttending];
+    const previouslyNo = prev === 0 || prev === '0';
+    sheet.getRange(i + 1, idxAttending + 1).setValue(attendingYes ? 1 : 0);
+    return previouslyNo && attendingYes;
+  }
+  return false;
 }
 
 function submitResponse(body) {
@@ -173,6 +247,7 @@ function submitResponse(body) {
   const now = new Date();
   const emailLines = [];
   let anyUpdated = false;
+  const changedMinds = [];
 
   responses.forEach(person => {
     const merged = Object.assign(
@@ -201,6 +276,14 @@ function submitResponse(body) {
       rowNumberByKey[key] = sheet.getLastRow();
     }
 
+    const attendingAnswer = person.answers && person.answers.attending;
+    if (attendingAnswer === 'Joyfully accepts' || attendingAnswer === 'Regretfully declines') {
+      const justSaidYes = attendingAnswer === 'Joyfully accepts';
+      if (syncGuestAttending(partyId, person.guestName, justSaidYes)) {
+        changedMinds.push(person.guestName);
+      }
+    }
+
     emailLines.push(`${person.guestName}:`);
     Object.keys(merged).forEach(k => emailLines.push(`  ${k}: ${merged[k]}`));
     emailLines.push('');
@@ -216,6 +299,16 @@ function submitResponse(body) {
     subject: `RSVP ${anyUpdated ? 'updated' : 'received'} — ${partyLabel || partyId}`,
     body: emailLines.join('\n'),
   });
+
+  // A separate, easy-to-spot heads-up on top of the regular notification
+  // above — someone who'd said no is now coming after all.
+  if (changedMinds.length) {
+    MailApp.sendEmail({
+      to: NOTIFY_EMAIL,
+      subject: `CHANGED THEIR MINDS — ${changedMinds.join(', ')}`,
+      body: `${changedMinds.join(', ')} previously said no, and just switched to yes!\n\nParty: ${partyLabel || partyId}`,
+    });
+  }
 
   updateTotals();
 

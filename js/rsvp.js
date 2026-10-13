@@ -265,6 +265,11 @@ async function renderQuestionForm(party) {
   formWrap.innerHTML = pageShellHTML(party, n);
   formWrap.hidden = false;
 
+  const partyNotesEl = document.getElementById('rsvp2-party-notes');
+  if (partyNotesEl && party.partyAnswers && party.partyAnswers.notes) {
+    partyNotesEl.value = party.partyAnswers.notes;
+  }
+
   const flowEl = document.getElementById('rsvp2-flow');
   const confirmEl = document.getElementById('rsvp2-confirm-wrap');
   const bannerEl = document.getElementById('rsvp2-banner');
@@ -425,6 +430,52 @@ async function renderQuestionForm(party) {
         setTimeout(() => reveal(i), 60);
       }
     });
+
+    // Pre-fill from whatever they already told us (if they've RSVP'd before).
+    // Sets state + checks inputs directly rather than dispatching 'change' —
+    // the change handlers above have side effects (auto-advance on decline)
+    // meant for live interaction, not for silently restoring a prior answer.
+    const prev = (party.previousAnswers || {})[member.name];
+    if (prev) {
+      if (prev[byId.attending.id] === byId.attending.options[0]) {
+        attend[i] = true;
+        if (attendYes) attendYes.checked = true;
+      } else if (prev[byId.attending.id] === byId.attending.options[1]) {
+        attend[i] = false;
+        if (attendNo) attendNo.checked = true;
+      }
+
+      ['friday', 'saturday_brunch', 'soccer'].forEach((qid) => {
+        if (!byId[qid] || !prev[qid]) return;
+        const el = radioEl(`${qid}-${i}`, prev[qid]);
+        if (el) el.checked = true;
+      });
+
+      if (jerseyBlock && prev.soccer === (byId.soccer && byId.soccer.options[0])) {
+        jerseyBlock.hidden = false;
+        if (prev.jersey_size) {
+          const jEl = radioEl(`jersey_size-${i}`, prev.jersey_size);
+          if (jEl) jEl.checked = true;
+        }
+      }
+
+      if (prev.meal) {
+        const mealEl = radioEl(`meal-${i}`, prev.meal);
+        if (mealEl) mealEl.checked = true;
+      }
+
+      if (attend[i] === false) {
+        const declineNoteEl = document.getElementById(`declinenote-${i}`);
+        if (declineNoteEl && prev.dietary) declineNoteEl.value = prev.dietary;
+      } else {
+        const allergiesEl = document.getElementById(`allergies-${i}`);
+        if (allergiesEl && prev.dietary) allergiesEl.value = prev.dietary;
+        const placeNameEl = document.getElementById(`placename-${i}`);
+        if (placeNameEl && prev.place_card_name) placeNameEl.value = prev.place_card_name;
+        const songEl = document.getElementById(`song-${i}`);
+        if (songEl && prev.song) songEl.value = prev.song;
+      }
+    }
 
     syncAttendUI();
   }
